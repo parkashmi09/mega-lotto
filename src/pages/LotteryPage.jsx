@@ -11,11 +11,13 @@ import { PaymentMarquee } from '../components/lottery/PaymentMarquee.jsx';
 import LatestWinners from '../components/lottery/LatestWinners.jsx';
 import { DepositModal } from '../components/wallet/DepositModal.jsx';
 import { useAuthState } from '../hooks/useAuthState.js';
+import { useScreenSize } from '../hooks/useScreenSize.js';
 
 export function LotteryPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthState();
+  const { isMobile } = useScreenSize();
   const { activeLotteries } = useSiteConfig();
   const [draws, setDraws] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,19 +41,43 @@ export function LotteryPage() {
   );
 
   const heroSection = <MegaLootSection lotteryId="mega_millions" />;
-  const grid = loading ? (
+
+  const gridOf = (list) => (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {list.map((draw) => (
+        <DrawCard key={draw.id} draw={draw} />
+      ))}
+    </div>
+  );
+
+  const loadingGrid = (
     <div className="grid gap-4 sm:grid-cols-2">
       {Array.from({ length: 2 }).map((_, i) => (
         <div key={i} className="h-48 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
       ))}
     </div>
-  ) : gridDraws.length === 0 ? null : (
-    <div className="grid gap-4 sm:grid-cols-2">
-      {gridDraws.map((draw) => (
-        <DrawCard key={draw.id} draw={draw} />
-      ))}
-    </div>
   );
+
+  // Mobile + Mega Lotto category → lead with only the Mega Lotto card, push the
+  // rest of the draw cards below the buy hero. Everywhere else → full grid on top.
+  const isMega = category === 'mega';
+  const megaCard = gridDraws.find((d) => d.id === 'mega_millions');
+  const splitMobileMega = isMobile && isMega && megaCard;
+
+  const grid = loading
+    ? loadingGrid
+    : gridDraws.length === 0
+      ? null
+      : gridOf(gridDraws);
+
+  const topGrid = loading
+    ? loadingGrid
+    : splitMobileMega
+      ? gridOf([megaCard])
+      : grid;
+  const bottomGrid = splitMobileMega
+    ? gridOf(gridDraws.filter((d) => d.id !== 'mega_millions'))
+    : null;
 
   return (
     <div className="space-y-6 py-4">
@@ -61,9 +87,11 @@ export function LotteryPage() {
       {/* Category carousel */}
       <LotteryCategoryCarousel activeCategory={category} onCategoryChange={setCategory} />
 
-      {/* Every category → that category's draw cards on top, Mega Lotto buy hero below. */}
-      {grid}
+      {/* Draw cards on top, Mega Lotto buy hero below. On mobile + Mega Lotto
+          category, only the Mega Lotto card sits on top; the rest go below. */}
+      {topGrid}
       {heroSection}
+      {bottomGrid}
 
       {/* Latest winners (last results) */}
       <LatestWinners />
