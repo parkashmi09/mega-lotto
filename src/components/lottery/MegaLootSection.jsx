@@ -108,14 +108,38 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
     }
     return () => { fireRef.current = null; };
   }, []);
-  // Party-popper "cracker" burst (canvas-confetti) — two angled shots from the
-  // sides, fired beside the timer each time a prize is revealed.
-  const popConfetti = () => {
+  // Whichever timer is currently on-screen (mobile header vs desktop row).
+  const timerWrapMobileRef = useRef(null);
+  const timerWrapDesktopRef = useRef(null);
+
+  // Firecracker burst (canvas-confetti) — a transparent celebratory pop fired
+  // right OVER whichever timer is visible: one wide upward shot from its centre
+  // plus two angled cracker shots converging on it. Origin is mapped from the
+  // live timer DOM rect so it lands on the timer in BOTH mobile (top-right
+  // header) and desktop (results row) layouts. Fired the instant the countdown
+  // hits 00:00 and again on each 1st/2nd/3rd prize reveal.
+  const crackerBurst = () => {
     const fire = fireRef.current;
-    if (!fire) return;
+    const canvas = confettiCanvasRef.current;
+    if (!fire || !canvas) return;
     const colors = [draw?.color || '#34d399', '#22d3c4', '#ffffff', '#f0a020'];
-    fire({ particleCount: 55, angle: 60, spread: 55, startVelocity: 34, scalar: 0.8, ticks: 140, gravity: 1.05, origin: { x: 0.08, y: 0.32 }, colors });
-    fire({ particleCount: 55, angle: 120, spread: 55, startVelocity: 34, scalar: 0.8, ticks: 140, gravity: 1.05, origin: { x: 0.92, y: 0.32 }, colors });
+
+    // Locate the visible timer and convert its centre into canvas 0..1 space
+    let ox = 0.5, oy = 0.18;
+    const timerEl = [timerWrapDesktopRef.current, timerWrapMobileRef.current]
+      .find((el) => el && el.offsetParent !== null && el.getBoundingClientRect().width > 0);
+    const cr = canvas.getBoundingClientRect();
+    if (timerEl && cr.width && cr.height) {
+      const tr = timerEl.getBoundingClientRect();
+      ox = (tr.left + tr.width / 2 - cr.left) / cr.width;
+      oy = (tr.top + tr.height / 2 - cr.top) / cr.height;
+    }
+
+    // central upward pop, sitting right on the timer
+    fire({ particleCount: 70, angle: 90, spread: 120, startVelocity: 40, scalar: 0.8, ticks: 160, gravity: 1.1, decay: 0.92, origin: { x: ox, y: oy }, colors });
+    // two angled cracker shots converging over the timer
+    fire({ particleCount: 35, angle: 55, spread: 70, startVelocity: 34, scalar: 0.75, ticks: 150, gravity: 1.1, origin: { x: Math.max(0.04, ox - 0.22), y: oy }, colors });
+    fire({ particleCount: 35, angle: 125, spread: 70, startVelocity: 34, scalar: 0.75, ticks: 150, gravity: 1.1, origin: { x: Math.min(0.96, ox + 0.22), y: oy }, colors });
   };
 
   useEffect(() => {
@@ -144,11 +168,14 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
     if (phase !== 'revealing') return;
     setRevealStep(0);
     const timers = [
-      setTimeout(popConfetti, 4000),
+      // cracker burst the instant the countdown hits 00:00 — over the timer
+      setTimeout(crackerBurst, 60),
+      setTimeout(crackerBurst, 420),
+      setTimeout(crackerBurst, 4000),
       setTimeout(() => setRevealStep(1), 5000),
-      setTimeout(popConfetti, 9000),
+      setTimeout(crackerBurst, 9000),
       setTimeout(() => setRevealStep(2), 10000),
-      setTimeout(popConfetti, 14000),
+      setTimeout(crackerBurst, 14000),
       setTimeout(() => {
         setPhase('counting');
         setPeriodEnd(Math.ceil((Date.now() + 1) / intervalMs) * intervalMs);
@@ -286,7 +313,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
                 <p className="text-[12px] text-[var(--color-foreground-muted-1)]">{fmtMoney(draw.jackpot)} {t('lottery.jackpot', 'jackpot').toLowerCase()}</p>
               </div>
               {/* Mobile: timer sits in the header to save vertical space */}
-              <div className="relative z-[1] ml-auto shrink-0 lg:hidden">{timerView(20)}</div>
+              <div ref={timerWrapMobileRef} className="relative z-[1] ml-auto shrink-0 lg:hidden">{timerView(20)}</div>
             </div>
 
             {/* Countdown → winner reveal (desktop row) */}
@@ -296,14 +323,18 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
                   <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--color-green-1)' }}>
                     {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
                   </span>
-                  <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={24} />
+                  <span ref={timerWrapDesktopRef} className="relative">
+                    <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={24} />
+                  </span>
                 </>
               ) : (
                 <>
                   <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-[var(--color-foreground-muted-1)]">
                     <Clock size={14} /> {t('lottery.drawsIn', 'Results in')}
                   </span>
-                  <NeonTimer value={countdown} accent="var(--color-green-1)" />
+                  <span ref={timerWrapDesktopRef} className="relative">
+                    <NeonTimer value={countdown} accent="var(--color-green-1)" />
+                  </span>
                 </>
               )}
             </div>
