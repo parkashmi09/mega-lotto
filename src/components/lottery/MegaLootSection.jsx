@@ -192,7 +192,8 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
         </h2>
       </div>
 
-      <div className="flex w-full flex-col gap-[16px] lg:flex-row">
+      <div className="rounded-[28px] bg-[var(--color-surface-2)]/40 p-2.5 sm:p-3">
+      <div className="flex w-full flex-col gap-[12px] lg:flex-row">
         {/* Left — info + actions */}
         <div className="order-2 w-full shrink-0 lg:order-1 lg:w-[340px] lg:min-w-[340px]">
           <div className="flex w-full flex-col gap-[16px] rounded-[24px] bg-[var(--color-surface-1)] p-[20px] sm:rounded-[28px] lg:h-[480px]">
@@ -353,6 +354,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
             </div>
           )}
         </div>
+      </div>
       </div>
 
       {/* ── Purchase confirmation modal ── */}
