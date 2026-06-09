@@ -5,6 +5,6 @@
     { "id": "mega_millions", "name": "Mega Lotto",  "pool": 70, "pick": 5,  "price": 1000, "jackpot": 10000000,  "color": "#f0a020", "intervalHours": 0.0166667, "categories": ["mega"] },
     { "id": "euro_jackpot",  "name": "EuroJackpot", "pool": 50, "pick": 5,  "price": 150, "jackpot": 45000000,  "color": "#5b8def", "intervalHours": 720,       "categories": ["mega", "monthly"] },
     { "id": "daily_pick",    "name": "Daily Pick",  "pool": 36, "pick": 4,  "price": 50,  "jackpot": 250000,    "color": "#27c498", "intervalHours": 24,        "categories": ["daily", "mega"] },
-    { "id": "keno_draw",     "name": "Keno Draw",   "pool": 80, "pick": 10, "price": 50,  "jackpot": 1000000,   "color": "#9b6bdf", "intervalHours": 12,        "categories": ["instant", "daily"] }
+    { "id": "keno_draw",     "name": "Instant Lotto", "pool": 80, "pick": 10, "price": 50,  "jackpot": 1000000,   "color": "#9b6bdf", "intervalHours": 12,        "categories": ["instant", "daily"] }
   ]
 }

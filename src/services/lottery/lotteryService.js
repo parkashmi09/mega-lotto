@@ -20,7 +20,7 @@ export const DRAW_CATALOG = {
   [Lottery.MEGA_MILLIONS]: { id: Lottery.MEGA_MILLIONS, name: 'Mega Lotto',  pool: 70, pick: 5, price: 1000, jackpot: 10_000_000,  color: '#f0a020', intervalHours: 0.0166667, categories: ['mega'] },
   [Lottery.EURO_JACKPOT]:  { id: Lottery.EURO_JACKPOT,  name: 'EuroJackpot', pool: 50, pick: 5, price: 150, jackpot: 45_000_000,  color: '#5b8def', intervalHours: 720,       categories: ['mega', 'monthly'] },
   [Lottery.DAILY_PICK]:    { id: Lottery.DAILY_PICK,    name: 'Daily Pick',  pool: 36, pick: 4, price: 50,  jackpot: 250_000,     color: '#27c498', intervalHours: 24,        categories: ['daily', 'mega'] },
-  [Lottery.KENO_DRAW]:     { id: Lottery.KENO_DRAW,     name: 'Keno Draw',   pool: 80, pick: 10, price: 50, jackpot: 1_000_000,   color: '#9b6bdf', intervalHours: 12,        categories: ['instant', 'daily'] },
+  [Lottery.KENO_DRAW]:     { id: Lottery.KENO_DRAW,     name: 'Instant Lotto', pool: 80, pick: 10, price: 50, jackpot: 1_000_000,   color: '#9b6bdf', intervalHours: 12,        categories: ['instant', 'daily'] },
 };
 
 /* Load the mock catalogue from /api/lotteries.json (cached); fall back to DRAW_CATALOG. */

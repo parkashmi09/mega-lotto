@@ -2,18 +2,20 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import confetti from 'canvas-confetti';
 import { useSelector, useDispatch } from 'react-redux';
-import { Shuffle, X, Search, IndianRupee, Clock, Ticket } from 'lucide-react';
-import { getDrawById, buyTicket, getMyTickets, randomTicketNumber, padTicket, TICKET_MAX } from '../../services/lottery/lotteryService.js';
+import { Shuffle, X, Search, IndianRupee, Clock, Ticket, Trophy } from 'lucide-react';
+import { getDrawById, buyTicket, getMyTickets, randomTicketNumber, padTicket, TICKET_MAX, winningNumbersFor } from '../../services/lottery/lotteryService.js';
 import { deduct } from '../../store/walletSlice.js';
 import { useAuthState } from '../../hooks/useAuthState.js';
 import { useKenoSounds } from '../games/keno/useKenoSounds.js';
 import { NumberTile, TileGradients } from './NumberTile.jsx';
 import NeonTimer from './NeonTimer.jsx';
-import { useCountdown } from './DrawCard.jsx';
+import SlotReveal from './SlotReveal.jsx';
 
 const PAGE = 48;            // numbers shown per "Load More" on the home board
 const QUICK_PICK_COUNT = 6;
+const PRIZE_LABELS = ['1st Prize', '2nd Prize', '3rd Prize'];
 
 // Next draw boundary computed FRESH at purchase time — the draw's load-time
 // `closesAt` can already be in the past for a fast (e.g. 1-minute) draw, which
@@ -90,7 +92,72 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
     if (el) setTimeout(() => el.scrollTo({ top: from + el.clientHeight * 0.85, behavior: 'smooth' }), 60);
   };
 
-  const { value: countdown } = useCountdown(draw?.closesAt || new Date().toISOString(), draw?.intervalHours);
+  // Draw cycle: count down to the period boundary → reveal 1st/2nd/3rd winning
+  // numbers as GSAP slot reels (same as the home DrawCard) → restart.
+  const intervalMs = (draw?.intervalHours || 1 / 60) * 3_600_000;
+  const [tick, setTick] = useState(() => Date.now());
+  const [phase, setPhase] = useState('counting'); // 'counting' | 'revealing'
+  const [periodEnd, setPeriodEnd] = useState(() => Math.ceil((Date.now() + 1) / ((1 / 60) * 3_600_000)) * ((1 / 60) * 3_600_000));
+  const [revealStep, setRevealStep] = useState(0);
+
+  const confettiCanvasRef = useRef(null);
+  const fireRef = useRef(null);
+  useEffect(() => {
+    if (confettiCanvasRef.current && !fireRef.current) {
+      fireRef.current = confetti.create(confettiCanvasRef.current, { resize: true, disableForReducedMotion: true });
+    }
+    return () => { fireRef.current = null; };
+  }, []);
+  const popConfetti = () => {
+    const fire = fireRef.current;
+    if (!fire) return;
+    fire({ particleCount: 60, spread: 80, startVelocity: 28, scalar: 0.7, ticks: 120, gravity: 1.1, origin: { x: 0.5, y: 0.4 }, colors: [draw?.color || '#34d399', '#22d3c4', '#ffffff'] });
+  };
+
+  useEffect(() => {
+    const id = setInterval(() => setTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Align the countdown to the loaded draw's interval
+  useEffect(() => {
+    setPeriodEnd(Math.ceil((Date.now() + 1) / intervalMs) * intervalMs);
+    setPhase('counting');
+  }, [intervalMs]);
+
+  // Period ended → start reveal
+  useEffect(() => {
+    if (phase === 'counting' && tick >= periodEnd) setPhase('revealing');
+  }, [tick, periodEnd, phase]);
+
+  const winners = useMemo(
+    () => winningNumbersFor(draw?.id || 'x', new Date(periodEnd).toISOString(), 3),
+    [draw?.id, periodEnd]
+  );
+
+  // Reveal sequence: 1st → 2nd → 3rd (confetti each) → restart
+  useEffect(() => {
+    if (phase !== 'revealing') return;
+    setRevealStep(0);
+    const timers = [
+      setTimeout(popConfetti, 4000),
+      setTimeout(() => setRevealStep(1), 5000),
+      setTimeout(popConfetti, 9000),
+      setTimeout(() => setRevealStep(2), 10000),
+      setTimeout(popConfetti, 14000),
+      setTimeout(() => {
+        setPhase('counting');
+        setPeriodEnd(Math.ceil((Date.now() + 1) / intervalMs) * intervalMs);
+      }, 15800),
+    ];
+    return () => timers.forEach(clearTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
+  const _diff = Math.max(0, periodEnd - tick);
+  const _pad = (x) => String(x).padStart(2, '0');
+  const countdown = `${_pad(Math.min(99, Math.floor(_diff / 3_600_000)))}${_pad(Math.floor((_diff % 3_600_000) / 60_000))}${_pad(Math.floor((_diff % 60_000) / 1000))}`;
+  const revealing = phase === 'revealing';
 
   const count = selected.size;
   const total = (draw?.price ?? 0) * count;
@@ -196,7 +263,8 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
       <div className="flex w-full flex-col gap-[12px] lg:flex-row">
         {/* Left — info + actions */}
         <div className="order-2 w-full shrink-0 lg:order-1 lg:w-[340px] lg:min-w-[340px]">
-          <div className="flex w-full flex-col gap-[16px] rounded-[24px] bg-[var(--color-surface-1)] p-[20px] sm:rounded-[28px] lg:h-[480px]">
+          <div className="relative flex w-full flex-col gap-[16px] overflow-hidden rounded-[24px] bg-[var(--color-surface-1)] p-[20px] sm:rounded-[28px] lg:h-[480px]">
+            <canvas ref={confettiCanvasRef} className="pointer-events-none absolute inset-0 z-[6] h-full w-full" aria-hidden />
             <div className="flex items-center gap-[10px]">
               <span className="flex size-[34px] items-center justify-center rounded-[10px] text-white" style={{ backgroundColor: draw.color }}>
                 <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor"><path d="M19 5.25c1.24 0 2.25 1.01 2.25 2.25v2a.75.75 0 0 1-.53.72 1.75 1.75 0 0 0 0 3.36.75.75 0 0 1 .53.72v2c0 1.24-1.01 2.25-2.25 2.25H5c-1.24 0-2.25-1.01-2.25-2.25v-2a.75.75 0 0 1 .53-.72 1.75 1.75 0 0 0 0-3.36A.75.75 0 0 1 2.75 9.5v-2C2.75 6.26 3.76 5.25 5 5.25z" /></svg>
@@ -207,12 +275,23 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
               </div>
             </div>
 
-            {/* Countdown */}
-            <div className="flex items-center justify-between rounded-[14px] bg-[var(--color-surface-2)] px-[14px] py-[10px]">
-              <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-[var(--color-foreground-muted-1)]">
-                <Clock size={14} /> {t('lottery.drawsIn', 'Results in')}
-              </span>
-              <NeonTimer value={countdown} accent="var(--color-green-1)" />
+            {/* Countdown → winner reveal */}
+            <div className="relative z-[1] flex min-h-[58px] items-center justify-between gap-2 rounded-[14px] bg-[var(--color-surface-2)] px-[14px] py-[10px]">
+              {revealing ? (
+                <>
+                  <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--color-green-1)' }}>
+                    <Trophy size={14} /> {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
+                  </span>
+                  <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={24} />
+                </>
+              ) : (
+                <>
+                  <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-[var(--color-foreground-muted-1)]">
+                    <Clock size={14} /> {t('lottery.drawsIn', 'Results in')}
+                  </span>
+                  <NeonTimer value={countdown} accent="var(--color-green-1)" />
+                </>
+              )}
             </div>
 
             {/* Selected */}
@@ -231,12 +310,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
 
             {/* Selected number chips — float directly on the card (no box), scroll when many */}
             <div className="lg:min-h-0 lg:flex-1">
-              {count === 0 ? (
-                <div className="flex h-full min-h-[56px] flex-col items-center justify-center gap-1.5 text-center">
-                  <Ticket size={20} className="text-[var(--color-foreground-muted-2)]" />
-                  <p className="text-[12px] text-[var(--color-foreground-muted-2)]">{t('lottery.pickHint', 'Pick numbers or hit Random Pick')}</p>
-                </div>
-              ) : (
+              {count > 0 && (
                 <div ref={chipsRef} className="no-scrollbar flex max-w-full touch-pan-x items-center gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth py-[2px] pl-[2px] pr-1">
                   {[...selected].sort().map((num) => (
                     <button
@@ -252,8 +326,6 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
                 </div>
               )}
             </div>
-
-            <p className="text-center text-[12px] text-[var(--color-foreground-muted-2)]">{t('lottery.ticketRange', 'Ticket No. 0001–9999')} · {fmtMoney(draw.price)}/{t('lottery.ticket', 'ticket')}</p>
 
             <div className="flex items-center justify-between rounded-[16px] bg-[var(--color-surface-2)] px-[18px] py-[14px]">
               <span className="text-[13px] font-bold uppercase tracking-wide text-[var(--color-foreground-muted-1)]">{t('lottery.total', 'Total')}</span>
