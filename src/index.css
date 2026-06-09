@@ -1,0 +1,603 @@
+@import "tailwindcss";
+@import "./styles/variables.css";
+@import "./styles/embed.css";
+
+/* Align Tailwind breakpoints with useScreenSize (949 / 1331) for mobile / tablet / desktop */
+/* @theme {
+  --breakpoint-sm: 949px;
+  --breakpoint-md: 1017px;
+  --breakpoint-lg: 1331px;
+  --breakpoint-xl: 1536px;
+  --breakpoint-2xl: 1920px;
+} */
+
+/* Theme CSS variables – Thrill defaults from variables.css; themeService may override at runtime from config.theme_name */
+
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Game tile carousel widths – 3 visible on mobile, scales up on desktop */
+.game-tile-width {
+  min-width: calc((100% - 16px) / 3);
+  max-width: calc((100% - 16px) / 3);
+  flex-shrink: 0;
+}
+@media (min-width: 614px) {
+  .game-tile-width { min-width: calc((100% - 24px) / 4); max-width: calc((100% - 24px) / 4); }
+}
+@media (min-width: 770px) {
+  .game-tile-width { min-width: calc((100% - 40px) / 5); max-width: calc((100% - 40px) / 5); }
+}
+@media (min-width: 926px) {
+  .game-tile-width { min-width: calc((100% - 50px) / 6); max-width: calc((100% - 50px) / 6); }
+}
+@media (min-width: 1082px) {
+  .game-tile-width { min-width: calc((100% - 60px) / 7); max-width: calc((100% - 60px) / 7); }
+}
+@media (min-width: 1238px) {
+  .game-tile-width { min-width: calc((100% - 70px) / 8); max-width: calc((100% - 70px) / 8); }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-oxanium);
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Light theme: background + foreground. Header control buttons (Rewards, Notifications) use white when light theme is on. */
+.theme-light {
+  --color-background-primary: var(--color-base-1);
+  --color-background-secondary: var(--color-white);
+  --color-background: var(--color-background-primary);
+  --color-foreground-primary: var(--color-base-10);
+  --color-foreground-secondary: var(--color-base-10);
+  --color-foreground-tertiary: var(--color-base-10);
+  /* Control primary (header icon buttons): white in light theme */
+  --color-control-primary: var(--color-white);
+  --color-control-primary-foreground: var(--color-base-10);
+  --color-control-primary-active: var(--color-base-2);
+  --color-control-primary-foreground-active: var(--color-base-10);
+  /* Control secondary (e.g. left nav non-selected): base-2 in light theme; dark/Thrill use base-11 (variables.css) */
+  --color-control-secondary: var(--color-base-2);
+  --color-control-secondary-foreground: var(--color-base-8);
+  /* Surfaces and border: light theme so auth modal inputs/social buttons and other controls match. Overlays/modals (details.md) use background-overlay. */
+  --color-surface-1: var(--color-background-overlay);
+  --color-surface-2: var(--color-base-2);
+  --color-surface-3: var(--color-base-3);
+  --color-border: var(--color-base-6);
+  /* Secondary button: subtle transparent tint in light theme; icon/text dark for contrast */
+  --color-button-secondary: color-mix(in oklab, var(--color-base-8) 10%, transparent);
+  --color-button-secondary-foreground: var(--color-base-10);
+
+  /* Bottom nav + left nav: light bg, slightly more visible green overlay */
+  --color-bottom-navigation-background: var(--color-white);
+  --color-bottom-navigation-selected-surface: rgba(0, 166, 133, 0.12);
+  --color-bottom-navigation-selected-foreground: var(--color-green-3);
+
+  /* Sports betting: light backgrounds, dark text for readability */
+  --color-sport-tab-bg: var(--color-base-3);
+  --color-sport-tab-text: var(--color-base-10);
+  --color-sport-heading-bg: var(--color-base-4);
+  --color-sport-heading-text: var(--color-base-9);
+  --color-match-card-bg: var(--color-white);
+  --color-match-card-text: var(--color-base-9);
+  --color-match-card-border: var(--color-base-5);
+  --color-match-teams-text: var(--color-base-10);
+  --color-time-remaining-bg: var(--color-base-4);
+  --color-time-remaining-text: var(--color-base-9);
+  --color-tournament-overlay: linear-gradient(90deg, rgba(244,246,249,0.92) 50%, rgba(227,233,239,0.92) 99%);
+  --color-tournament-text: var(--color-base-10);
+  --color-see-all-bg: var(--color-button-primary);
+  --color-see-all-text: var(--color-button-primary-foreground);
+}
+
+/* Thrill template + dark: secondary button uses base-11 (#262c3e) for background */
+.theme-base-thrill_template:not(.theme-light) {
+  --color-button-secondary: var(--color-base-11);
+}
+
+/* When template is Thrill/Royal/Dark and user toggles to Light, keep Sign up + primary/accent on-brand (no purple) */
+.theme-base-thrill_template.theme-light {
+  --color-button-primary: var(--color-green-1);
+  --color-button-primary-foreground: var(--color-base-14);
+  --color-primary: var(--color-green-3);
+  --color-accent: var(--color-green-1);
+  /* Left nav: selected item = Thrill green (not purple); non-selected = base-8 */
+  --color-surface-selected-primary: var(--color-green-3);
+  --color-surface-selected-secondary: var(--color-green-3);
+  --color-foreground-selected-primary: var(--color-white);
+  --color-control-secondary-foreground: var(--color-base-8);
+  --color-foreground-muted-1: var(--color-base-8);
+}
+.theme-base-royal_template.theme-light {
+  --color-button-primary: var(--color-royal-accent);
+  --color-button-primary-foreground: var(--color-royal-secondary);
+  --color-primary: var(--color-royal-primary);
+  --color-accent: var(--color-royal-accent);
+}
+.theme-base-dark.theme-light {
+  --color-button-primary: var(--color-dark-accent);
+  --color-button-primary-foreground: var(--color-dark-bg);
+  --color-primary: var(--color-dark-primary);
+  --color-accent: var(--color-dark-accent);
+}
+
+@supports (color: color-mix(in oklab, red, red)) {
+  .theme-light {
+    --color-foreground-secondary: color-mix(in oklab, var(--color-base-10) 90%, transparent);
+    --color-background-overlay: color-mix(in oklab, var(--color-white) 96%, transparent);
+  }
+  /* Glow effect color: 40% green-1 for Thrill dark themes */
+  .thrill-dark-theme,
+  .theme-base-thrill_template:not(.theme-light) {
+    --color-effect-glow: color-mix(in oklab, var(--color-green-1) 40%, transparent);
+  }
+}
+
+/* Bottom nav tab: focus-visible border (matches Thrill reference) */
+.bottom-nav-tab {
+  position: relative;
+}
+.bottom-nav-tab::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset-inline: -0.6px;
+  inset-block: calc(var(--spacing-6) * -1);
+  border-width: var(--spacing-2);
+  border-style: solid;
+  border-radius: var(--spacing-12);
+  transition: border-color 0.15s;
+  border-color: transparent;
+}
+.bottom-nav-tab:focus-visible::before {
+  border-color: var(--color-foreground-primary);
+}
+
+/* Hide scrollbar UI globally (keep scroll behavior) */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+}
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Layout: when left nav is expanded, set width var so content area margin and header padding use expanded offset */
+.app-layout-root[data-left-nav-expanded="true"] {
+  --bl-left-nav-width: var(--bl-left-nav-width-expanded);
+}
+
+/* Left nav: allow vertical scroll and show scrollbar when content overflows */
+.left-nav-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.left-nav-scroll {
+  scrollbar-width: thin; /* Firefox: thin scrollbar when needed */
+  scrollbar-color: var(--color-foreground-muted-1) transparent;
+}
+.left-nav-scroll::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+.left-nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.left-nav-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-foreground-muted-1);
+  border-radius: 3px;
+}
+.left-nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-foreground-muted-2);
+}
+
+/* Header: transparent/semi-transparent + 20px backdrop blur (glassmorphism) */
+.bg-header-background {
+  background-color: transparent;
+}
+.effect-blur-m {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+@media (min-width: 949px) {
+  .sm\:bg-header-background {
+    /* Semi-transparent tint so blur(20px) shows content behind */
+    background-color: color-mix(in oklab, var(--color-header-background) 92%, transparent);
+  }
+  .sm\:effect-blur-m {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+}
+
+/* Local z-index stack (for notch / overlay layering; use with isolate parent) */
+.local-z-stack {
+  isolation: isolate;
+  --local-z: 0;
+}
+.-local-z-1 {
+  z-index: calc(var(--local-z, 0) - 1);
+}
+
+/* Typography – Oxanium as default for label/display */
+.typ-nocap-label-large {
+  font-family: var(--font-oxanium);
+}
+
+/* LeftNav / reference semantic utilities (map to variables.css) */
+.bg-control-secondary { background-color: var(--color-control-secondary); }
+.text-control-secondary-foreground { color: var(--color-control-secondary-foreground); }
+.bg-control-secondary-active { background-color: var(--color-control-secondary-active); }
+.text-control-secondary-foreground-active { color: var(--color-control-secondary-foreground-active); }
+.bg-surface-selected-primary { background-color: var(--color-surface-selected-primary); }
+.bg-surface-selected-secondary { background-color: var(--color-surface-selected-secondary); }
+
+/* Casino/Sports switch + scroll nav: selected = Thrill green when template is Thrill (dark or light) */
+.theme-thrill_template .left-nav-mode-switch,
+.theme-base-thrill_template .left-nav-mode-switch,
+.thrill-dark-theme .left-nav-mode-switch {
+  --color-surface-selected-primary: var(--color-green-1);
+  --color-foreground-selected-primary: var(--color-white);
+}
+.theme-thrill_template .left-nav-scroll,
+.theme-base-thrill_template .left-nav-scroll {
+  --color-surface-selected-primary: var(--color-green-3);
+  --color-surface-selected-secondary: var(--color-green-3);
+  --color-foreground-selected-primary: var(--color-white);
+}
+
+/* thrill-dark-theme: selected surface = subtle green tint (carousel active, mode switch, etc.) */
+@supports (color: color-mix(in oklab, red, red)) {
+  .thrill-dark-theme {
+    --color-surface-selected-secondary: color-mix(in oklab, var(--color-green-1) 6%, transparent);
+  }
+}
+.text-foreground-selected-secondary { color: var(--color-foreground-selected-secondary); }
+.bg-surface-2 { background-color: var(--color-surface-2); }
+.text-foreground-primary { color: var(--color-foreground-primary); }
+/* Muted text/icon (variables.css: --color-foreground-muted-1 → --color-base-8); SVGs with fill: currentColor inherit this */
+.text-foreground-muted-1 { color: var(--color-foreground-muted-1); }
+.bg-foreground-muted-1\/8 { background-color: color-mix(in oklab, var(--color-foreground-muted-1) 8%, transparent); }
+.outline-foreground-primary { outline-color: var(--color-foreground-primary); }
+.typ-label-xxxsmall {
+  font-family: var(--font-oxanium);
+  font-size: 9px;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.focusable { outline: none; }
+.focusable:focus-visible { outline: 2px solid var(--color-foreground-primary); outline-offset: 2px; }
+.int-hover-scale-plus:hover { transform: scale(1.05); }
+.align-center { align-items: center; }
+.size-fit { width: fit-content; height: fit-content; }
+
+/* Footer – background/foreground and layout */
+.bg-background-secondary { background-color: var(--color-background-secondary); }
+.bg-background-primary { background-color: var(--color-background-primary); }
+.fill-background-secondary { fill: var(--color-background-secondary); }
+.text-foreground-tertiary { color: var(--color-foreground-tertiary); }
+
+/* Footer typography (Thrill reference) */
+.typ-heading-medium {
+  font-family: var(--font-oxanium);
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.typ-heading-small {
+  font-family: var(--font-oxanium);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.typ-paragraph-large {
+  font-family: var(--font-oxanium);
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.typ-label-medium {
+  font-family: var(--font-oxanium);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: 500;
+}
+.typ-paragraph-small {
+  font-family: var(--font-oxanium);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.typ-display-xsmall {
+  font-family: var(--font-oxanium);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.typ-display-small {
+  font-family: var(--font-oxanium);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.font-regular { font-weight: 400; }
+
+/* Footer local z within stack */
+.local-z-1 { z-index: 1; }
+
+/* Footer radius / border */
+.rounded-32 { border-radius: var(--radius-32); }
+.rounded-24 { border-radius: var(--radius-24); }
+.rounded-40 { border-radius: var(--radius-40); }
+.rounded-64 { border-radius: var(--radius-64); }
+.border-surface-1 { border-color: var(--color-surface-1); }
+.border-t-1 { border-top-width: 1px; }
+.border-b-1 { border-bottom-width: 1px; }
+
+/* Footer action buttons (Thrill tActionButton) */
+.tActionButton {
+  font-family: var(--font-oxanium);
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform var(--default-transition-duration) var(--default-transition-timing-function);
+}
+.tActionButton:disabled { cursor: auto; opacity: 0.3; }
+.tActionButton--primary .tActionButton__container {
+  background-color: var(--color-button-primary);
+  color: var(--color-button-primary-foreground);
+}
+.tActionButton--secondary .tActionButton__container {
+  background-color: var(--color-button-secondary);
+  color: var(--color-button-secondary-foreground);
+}
+.tActionButton--small .tActionButton__container {
+  padding: 10px 20px;
+  min-height: 40px;
+}
+.tActionButton--medium .tActionButton__container {
+  width: 40px;
+  height: 40px;
+}
+.tActionButton--with-text .tActionButton__text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.tActionButton__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-40);
+}
+.tActionButton--icon-only .tActionButton__container {
+  border-radius: var(--radius-64);
+  aspect-ratio: 1;
+}
+.tActionButton__icon { width: 24px; height: 24px; }
+.footer-social-links .tActionButton__icon { width: 18px; height: 18px; }
+/* Glow effect for active/selected elements (casino carousel, etc.) */
+.effect-glow {
+  filter: drop-shadow(0px 0px 10px var(--color-effect-glow));
+}
+
+.rounded-20 { border-radius: 20px; }
+
+/* Right-side fade mask for horizontal scroll containers */
+.effect-fade-r {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 60px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 60px), transparent 100%);
+}
+
+.int-hover-scale:hover { transform: scale(1.02); }
+@media (min-width: 840px) {
+  .tActionButton--medium .tActionButton__container { width: 48px; height: 48px; }
+}
+
+/* ───────────────────────────────────────────────
+   3D split-flap flip clock (lottery countdowns)
+   ─────────────────────────────────────────────── */
+.flip-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34em;
+  font-family: 'Orbitron', 'Oxanium', ui-monospace, monospace;
+  font-size: 1.18em;
+  line-height: 1;
+}
+.flip-group { display: inline-flex; gap: 0.18em; }
+.flip-colon {
+  font-family: 'Orbitron', ui-monospace, monospace;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-shadow: 0 0 8px color-mix(in oklab, var(--color-primary) 70%, transparent);
+  animation: flip-colon-pulse 1s steps(1, end) infinite;
+}
+@keyframes flip-colon-pulse { 50% { opacity: 0.3; } }
+
+.flip-unit {
+  position: relative;
+  display: inline-block;
+  width: 1.15em;
+  height: 1.5em;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-foreground-primary);
+  perspective: 300px;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5));
+}
+.flip-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--color-surface-3) 0%, var(--color-surface-2) 100%);
+  /* glossy bevel: top highlight + inner depth */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  backface-visibility: hidden;
+}
+.flip-half > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+  /* 3D extruded text: stacked dark copies downward + top highlight + green glow */
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18),
+    0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 2px 1px rgba(0, 0, 0, 0.55),
+    0 3px 2px rgba(0, 0, 0, 0.5),
+    0 4px 6px rgba(0, 0, 0, 0.45),
+    0 0 12px color-mix(in oklab, var(--color-primary) 35%, transparent);
+}
+.flip-upper, .flip-fold-top {
+  top: 0;
+  border-radius: 0.22em 0.22em 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+  /* subtle sheen on the top flap */
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, var(--color-surface-3) 0%, var(--color-surface-2) 100%);
+}
+.flip-lower, .flip-fold-bottom {
+  bottom: 0;
+  border-radius: 0 0 0.22em 0.22em;
+}
+.flip-upper > span, .flip-fold-top > span { top: 0; }
+.flip-lower > span, .flip-fold-bottom > span { bottom: 0; }
+
+.flip-fold-top {
+  z-index: 2;
+  transform-origin: 50% 100%;
+  animation: flip-fold-down 0.34s cubic-bezier(0.36, 0, 0.66, -0.06) forwards;
+}
+.flip-fold-bottom {
+  z-index: 2;
+  transform: rotateX(90deg);
+  transform-origin: 50% 0%;
+  animation: flip-fold-up 0.34s cubic-bezier(0.34, 1.2, 0.64, 1) 0.18s forwards;
+}
+@keyframes flip-fold-down {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(-90deg); }
+}
+@keyframes flip-fold-up {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-fold-top, .flip-fold-bottom { animation-duration: 0.001s; }
+  .flip-colon { animation: none; }
+}
+
+/* Buy Now button — pulsing green glow when active */
+@keyframes buy-now-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-green-1) 55%, transparent); }
+  50% { box-shadow: 0 0 22px 3px color-mix(in oklab, var(--color-green-1) 50%, transparent); }
+}
+.buy-now-active { animation: buy-now-pulse 1.7s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .buy-now-active { animation: none; }
+}
+/* Lottery DrawCard — decorative balls drifting out of the globe and fading */
+@keyframes drawball-drift {
+  0%   { transform: translate(0, 0) scale(0.55); opacity: 0; }
+  15%  { opacity: 0.9; }
+  60%  { opacity: 0.6; }
+  100% { transform: translate(var(--dx, 40px), var(--dy, -70px)) scale(1.05); opacity: 0; }
+}
+.drawball {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+  animation: drawball-drift var(--dur, 5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawball { animation: none; opacity: 0.3; }
+}
+
+/* Lottery DrawCard — twinkling sparkles in the card background */
+@keyframes drawsparkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50%      { opacity: 0.95; transform: scale(1); }
+}
+.drawsparkle {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+  animation: drawsparkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawsparkle { animation: none; opacity: 0.5; }
+}
+
+/* ── Winning-number slot reveal (3D arcade digits) ── */
+.slot-digit {
+  font-family: 'Bungee', 'Oxanium', system-ui, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0.72em;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.5),
+    0 2px 0 rgba(0,0,0,0.45),
+    0 3px 0 rgba(0,0,0,0.4),
+    0 4px 6px rgba(0,0,0,0.55);
+}
+.slot-digit.spinning { filter: blur(0.4px); opacity: 0.92; }
+@keyframes slot-pop {
+  0%   { transform: translateY(-22%) scale(0.7); opacity: 0; }
+  55%  { transform: translateY(8%) scale(1.12); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.slot-digit.locked { animation: slot-pop 0.34s cubic-bezier(.2,1.4,.4,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .slot-digit.locked { animation: none; }
+  .slot-digit.spinning { filter: none; }
+}
+
+/* Winning slot-ball lock pop */
+@keyframes slot-ball-pop {
+  0%   { transform: scale(0.55); opacity: 0.4; }
+  55%  { transform: scale(1.16); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.slot-ball-locked { animation: slot-ball-pop 0.42s cubic-bezier(.2,1.4,.4,1) both; }
+@media (prefers-reduced-motion: reduce) { .slot-ball-locked { animation: none; } }

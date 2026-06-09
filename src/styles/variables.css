@@ -1,0 +1,293 @@
+/**
+ * Thrill website – design tokens (colors + layout).
+ * Colors only in :root; themeService may override from config.
+ * Layout / Tailwind-style tokens: spacing, radius, z-index, heights.
+ */
+:root {
+  /* -------------------------------------------------------------------------
+     Thrill base palette (colors only)
+     ------------------------------------------------------------------------- */
+  --color-black: #000;
+  --color-white: #fff;
+  --color-base-1: #f4f6f9;
+  --color-base-2: #f5f6f8;
+  --color-base-3: #e3e9ef;
+  --color-base-4: #eaeef3;
+  --color-base-5: #e5e8f0;
+  --color-base-6: #dde4ec;
+  --color-base-7: #b8c2da;
+  --color-base-8: #858fa6;
+  --color-base-9: #525b70;
+  --color-base-10: #3c4357;
+  --color-base-11: #262c3e;
+  --color-base-12: #242837;
+  --color-base-13: #202433;
+  --color-base-14: #1b1d29;
+  --color-base-15: #a0acc7;
+  --color-base-16: #2d354c;
+  --color-green-1: #5cffc1;
+  --color-green-2: #2ed2a3;
+  --color-green-3: #00a685;
+  --color-red-1: #ff6b6b;
+  --color-red-2: #de1135;
+  --color-red-3: #a80e2a;
+  --color-yellow-1: #ffd966;
+  --color-yellow-2: #f6bc2f;
+  --color-yellow-3: #d8a000;
+  --color-purple-1: #7c79ff;
+  --color-purple-2: #5956ff;
+  --color-purple-3: #4839d1;
+
+  /* Royal palette (royal_template theme) */
+  --color-royal-primary: #4c1d95;
+  --color-royal-secondary: #1e1b4b;
+  --color-royal-accent: #c084fc;
+  --color-royal-bg: #0f0a1f;
+  --color-royal-surface: #1e1b4b;
+  --color-royal-text: #f5f3ff;
+  --color-royal-text-muted: #a78bfa;
+
+  /* Dark theme palette (theme_name: 'dark') – same structure as light */
+  --color-dark-primary: #6366f1;
+  --color-dark-secondary: #1e1e2e;
+  --color-dark-accent: #818cf8;
+  --color-dark-bg: #121212;
+  --color-dark-surface: #1e1e2e;
+  --color-dark-text: #f4f4f5;
+  --color-dark-text-muted: #a1a1aa;
+
+  /* Light theme palette (theme_name: 'light') – configured like dark; themeService applies same keys */
+  --color-light-primary: #4f46e5;
+  --color-light-secondary: #f8fafc;
+  --color-light-accent: #6366f1;
+  --color-light-bg: #ffffff;
+  --color-light-surface: #f1f5f9;
+  --color-light-text: #0f172a;
+  --color-light-text-muted: #64748b;
+
+  /* Premium theme palette */
+  --color-premium-primary: #0d9488;
+  --color-premium-secondary: #134e4a;
+  --color-premium-accent: #2dd4bf;
+  --color-premium-bg: #042f2e;
+  --color-premium-surface: #134e4a;
+  --color-premium-text: #ccfbf1;
+  --color-premium-text-muted: #5eead4;
+
+  /* Thrill semantic (dark theme default) – colors only; light/dark themes override via themeService */
+  --color-background-primary: var(--color-base-14);
+  --color-background-secondary: var(--color-base-13);
+  --color-background-overlay: var(--color-base-13);
+  --color-foreground-primary: var(--color-white);
+  --color-foreground-secondary: var(--color-white);
+  --color-foreground-muted-1: var(--color-base-8);
+  --color-foreground-muted-2: var(--color-base-9);
+  --color-foreground-muted-3: var(--color-base-15);
+  --color-foreground-tertiary: var(--color-base-8);
+  --color-border: var(--color-base-11);
+  --color-surface-1: var(--color-base-13);
+  --color-surface-2: var(--color-base-11);
+  --color-surface-3: var(--color-base-10);
+  --color-surface-4: var(--color-base-8);
+  --color-surface-5: var(--color-base-8);
+  --color-button-primary: var(--color-green-1);
+  --color-button-primary-foreground: var(--color-base-14);
+  --color-button-secondary: var(--color-base-8);
+  --color-button-secondary-foreground: var(--color-white);
+  --color-negative: var(--color-red-1);
+  --color-positive: var(--color-green-2);
+  --color-header-background: var(--color-base-14);
+  --color-control-primary: var(--color-base-11);
+  --color-control-primary-foreground: var(--color-base-15);
+  --color-control-primary-active: var(--color-base-10);
+  --color-control-primary-foreground-active: var(--color-white);
+  /* Nav/secondary controls: dark/Thrill = base-11 bg, base-7 icon; light overrides in index.css (base-2 bg, base-8 icon) */
+  --color-control-secondary: var(--color-base-11);
+  --color-control-secondary-foreground: var(--color-base-7);
+  --color-control-secondary-active: var(--color-base-3);
+  --color-control-secondary-foreground-active: var(--color-base-10);
+  /* Active/selected UI uses theme (primary, text_primary, button_primary_foreground) from theme_name */
+  --color-surface-selected-primary: var(--color-primary);
+  --color-surface-selected-secondary: var(--color-base-11);
+  --color-foreground-selected-primary: var(--color-text-primary);
+  --color-foreground-selected-secondary: var(--color-green-1);
+  --color-effect-glow: rgba(92, 255, 193, 0.4);
+  --color-bottom-navigation-background: var(--color-base-11);
+  --color-bottom-navigation-selected-surface: rgba(92, 255, 193, 0.08);
+  --color-bottom-navigation-selected-foreground: var(--color-green-1);
+  --color-surface-backdrop: rgba(0, 0, 0, 0.4);
+
+  /* Legacy / app aliases (map to Thrill or keep for components) */
+  --color-primary: var(--color-red-2);
+  --color-primary-hover: var(--color-red-3);
+  --color-secondary: var(--color-base-14);
+  --color-accent: var(--color-green-1);
+  --color-accent-muted: var(--color-yellow-2);
+  --color-background: var(--color-background-primary);
+  --color-surface: var(--color-surface-1);
+  --color-surface-elevated: var(--color-base-11);
+  --color-text-primary: var(--color-foreground-primary);
+  --color-text-secondary: var(--color-foreground-muted-1);
+  --color-text-muted: var(--color-foreground-muted-2);
+  --color-success: var(--color-green-3);
+  --color-danger: var(--color-red-2);
+  --color-warning: var(--color-yellow-2);
+  --color-info: var(--color-purple-2);
+  --color-surface-content: var(--color-foreground-primary);
+
+  /* Borders */
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+
+  /* ── Sports betting / odds ── */
+  --color-back-bg: linear-gradient(90deg, #457fca -66.05%, #84c2f1 93%);
+  --color-back-bg-muted: linear-gradient(90deg, rgba(69,127,202,0.3) -66%, rgba(132,194,241,0.3) 93%);
+  --color-lay-bg: linear-gradient(90deg, #f4c4f3 -66.05%, #f59dc2 93%);
+  --color-lay-bg-muted: linear-gradient(90deg, rgba(244,196,243,0.3) -66%, rgba(245,157,194,0.3) 93%);
+  --color-odds-text: #1a1a1a;
+  --color-sport-tab-bg: var(--color-base-11);
+  --color-sport-tab-text: var(--color-white);
+  --color-sport-heading-bg: var(--color-base-12);
+  --color-sport-heading-text: var(--color-foreground-muted-1);
+  --color-match-card-bg: var(--color-base-13);
+  --color-match-card-text: var(--color-foreground-muted-1);
+  --color-match-card-border: var(--color-base-11);
+  --color-match-teams-text: var(--color-foreground-primary);
+  --color-score-bg: #27ab69;
+  --color-score-text: var(--color-white);
+  --color-time-remaining-bg: var(--color-base-12);
+  --color-time-remaining-text: var(--color-foreground-muted-1);
+  --color-cashout-bg: #27ab69;
+  --color-cashout-text: var(--color-white);
+  --color-market-badge-bg: rgba(255,199,0,0.85);
+  --color-market-badge-text: #1a1a1a;
+  --color-tournament-overlay: linear-gradient(90deg, rgba(27,29,41,0.92) 50%, rgba(60,67,87,0.92) 99%);
+  --color-tournament-text: var(--color-white);
+  --color-see-all-bg: var(--color-button-primary);
+  --color-see-all-text: var(--color-button-primary-foreground);
+}
+
+/* -------------------------------------------------------------------------
+   Layout & Tailwind-style tokens (heights, spacing, radius, z-index)
+   ------------------------------------------------------------------------- */
+:root {
+  /* Breakpoints (for reference / JS) */
+  --breakpoint-sm: 949px;
+  --breakpoint-md: 1017px;
+  --breakpoint-lg: 1331px;
+
+  /* Header / nav */
+  --header-height: 64px;
+  --bl-header-height: 60px;
+  --bl-bottom-nav-height: 62px;
+  --bl-bottom-nav-padding-bottom: 14px;
+  --bl-bottom-nav-padding-top: 4px;
+  --bl-bottom-nav-offset-y: calc(
+    var(--bl-bottom-nav-height) + var(--bl-bottom-nav-padding-bottom) + var(--bl-bottom-nav-padding-top)
+  );
+  --bl-bottom-nav-padding-x: 16px;
+  --bl-left-nav-width-default: 104px;
+  --bl-left-nav-width-expanded: 100px;
+  /* Current left nav width (default or expanded); JS can set --bl-left-nav-width for expanded state */
+  --bl-left-nav-width: var(--bl-left-nav-width-default);
+  --bl-left-nav-default-offset-x: calc(var(--bl-left-nav-width-default) + var(--bl-padding-x));
+  --bl-left-nav-offset-x: calc(var(--bl-left-nav-width) + var(--bl-padding-x));
+  --bl-right-panel-width: 352px;
+  --bl-right-panel-offset-x: 0;
+  --bl-content-max-width: 1366px;
+  --bl-content-padding: 16px;
+  --bl-padding-x: 12px;
+  --bl-padding-y: 10px;
+
+  /* Spacing scale (Tailwind-style) */
+  --spacing-0: 0;
+  --spacing-2: 2px;
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-16: 16px;
+  --spacing-18: 18px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-56: 56px;
+  --spacing-64: 64px;
+
+  /* Radius scale */
+  --radius-0: 0;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-14: 14px;
+  --radius-16: 16px;
+  --radius-18: 18px;
+  --radius-20: 20px;
+  --radius-24: 24px;
+  --radius-32: 32px;
+  --radius-40: 40px;
+  --radius-48: 48px;
+  --radius-56: 56px;
+  --radius-64: 64px;
+  --radius-sm: var(--radius-6);
+  --radius-md: var(--radius-10);
+  --radius-lg: var(--radius-14);
+
+  /* Z-index scale */
+  --z-index-content: 0;
+  --z-index-below-header: 10;
+  --z-index-header: 20;
+  --z-index-intercom-launcher: 30;
+  --z-index-mobile-menu-overlay: 40;
+  --z-index-bottom-nav: 50;
+  --z-index-left-nav: 60;
+  --z-index-floating-panel: 70;
+  --z-index-mobile-menu: 80;
+  --z-index-left-nav-overlay: 90;
+  --z-index-left-nav-expanded: 100;
+  --z-index-context-menu-portal: 120;
+  --z-index-tooltip-portal: 130;
+  --z-index-popover-portal: 140;
+  --z-index-drawer-portal: 150;
+  --z-index-toast-portal: 160;
+  --z-index-turnstile: 180;
+
+  /* Typography */
+  --font-oxanium: 'Oxanium', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
+  --font-courier-prime: 'Courier Prime', monospace;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --display-letter-spacing: -0.02;
+
+  /* Transitions */
+  --default-transition-duration: 0.15s;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tablet (949px–1330px): narrower content so layout isn’t overly wide */
+@media (min-width: 949px) and (max-width: 1330px) {
+  :root {
+    --bl-content-max-width: 720px;
+  }
+}
+
+@media (min-width: 949px) {
+  :root {
+    --bl-header-height: 68px;
+    --bl-content-padding: 48px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --bl-content-padding: 64px;
+  }
+}

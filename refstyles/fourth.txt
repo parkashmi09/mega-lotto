@@ -1,0 +1,865 @@
+.arsicon-v9kiyw path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .arsicon-v9kiyw,svg.dark-mode.arsicon-v9kiyw {
+    --color-fill-1: #f6ca45;
+    --opacity-fill-1: .1;
+    --color-fill-2: #5ea82c;
+    --opacity-fill-2: 1;
+    --color-border: #f6ca45;
+    --opacity-border: .2
+}
+
+.arsicon-v9kiyw,svg.light-mode.arsicon-v9kiyw {
+    --color-fill-1: #f6ca45;
+    --opacity-fill-1: 1;
+    --color-fill-2: #37621a;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.audicon-13b32a path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .audicon-13b32a,svg.dark-mode.audicon-13b32a {
+    --color-fill-1: #3b3bff;
+    --opacity-fill-1: .1;
+    --color-fill-2: #ff4747;
+    --opacity-fill-2: 1;
+    --color-border: #3b3bff;
+    --opacity-border: .2
+}
+
+.audicon-13b32a,svg.light-mode.audicon-13b32a {
+    --color-fill-1: #1d1dbe;
+    --opacity-fill-1: 1;
+    --color-fill-2: #ff4747;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.bgnicon-no7uy8 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .bgnicon-no7uy8,svg.dark-mode.bgnicon-no7uy8 {
+    --color-fill-1: #eff6fe;
+    --opacity-fill-1: .05;
+    --color-fill-2: #00966e;
+    --opacity-fill-2: 1;
+    --color-fill-3: #00966e;
+    --opacity-fill-3: 1;
+    --color-border: #eff6fe;
+    --opacity-border: .15
+}
+
+.bgnicon-no7uy8,svg.light-mode.bgnicon-no7uy8 {
+    --color-fill-1: #d2dde8;
+    --opacity-fill-1: 1;
+    --color-fill-2: #00966e;
+    --opacity-fill-2: 1;
+    --color-fill-3: #00966e;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.brlicon-140i0o path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .brlicon-140i0o,svg.dark-mode.brlicon-140i0o {
+    --color-fill-1: #4d972b;
+    --opacity-fill-1: .3;
+    --color-fill-2: #f6ca45;
+    --opacity-fill-2: 1;
+    --color-fill-3: #f6ca45;
+    --opacity-fill-3: 1;
+    --color-border: #4d972b;
+    --opacity-border: .4
+}
+
+.brlicon-140i0o,svg.light-mode.brlicon-140i0o {
+    --color-fill-1: #356e1a;
+    --opacity-fill-1: 1;
+    --color-fill-2: #e4c860;
+    --opacity-fill-2: 1;
+    --color-fill-3: #e4c860;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.cadicon-1omxd1 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .cadicon-1omxd1,svg.dark-mode.cadicon-1omxd1 {
+    --color-fill-1: #591921;
+    --opacity-fill-1: .4;
+    --color-fill-2: #e0aa5a;
+    --opacity-fill-2: 1;
+    --color-border: #591921;
+    --opacity-border: .5
+}
+
+.cadicon-1omxd1,svg.light-mode.cadicon-1omxd1 {
+    --color-fill-1: #e0aa5a;
+    --opacity-fill-1: 1;
+    --color-fill-2: #591921;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.chficon-17i439 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .chficon-17i439,svg.dark-mode.chficon-17i439 {
+    --color-fill-1: #ff4f4f;
+    --opacity-fill-1: .1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: #ff4f4f;
+    --opacity-border: .2
+}
+
+.chficon-17i439,svg.light-mode.chficon-17i439 {
+    --color-fill-1: #ff0000;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.clpicon-m6l744 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .clpicon-m6l744,svg.dark-mode.clpicon-m6l744 {
+    --color-fill-1: #eff6fe;
+    --opacity-fill-1: .06;
+    --color-fill-2: #8894ff;
+    --opacity-fill-2: 1;
+    --color-border: #eff6fe;
+    --opacity-border: .16
+}
+
+.clpicon-m6l744,svg.light-mode.clpicon-m6l744 {
+    --color-fill-1: #e9edf0;
+    --opacity-fill-1: 1;
+    --color-fill-2: #3c4ff5;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.cnyicon-1czpdn path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .cnyicon-1czpdn,svg.dark-mode.cnyicon-1czpdn {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: .3;
+    --color-fill-2: #e4c860;
+    --opacity-fill-2: 1;
+    --color-fill-3: #e4c860;
+    --opacity-fill-3: 1;
+    --color-border: #d83134;
+    --opacity-border: .4
+}
+
+.cnyicon-1czpdn,svg.light-mode.cnyicon-1czpdn {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: 1;
+    --color-fill-2: #ffd94e;
+    --opacity-fill-2: 1;
+    --color-fill-3: #ffd94e;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.copicon-1rjcuf path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .copicon-1rjcuf,svg.dark-mode.copicon-1rjcuf {
+    --color-fill-1: #fcd116;
+    --opacity-fill-1: .1;
+    --color-fill-2: #2176ff;
+    --opacity-fill-2: 1;
+    --color-border: #fcd116;
+    --opacity-border: .2
+}
+
+.copicon-1rjcuf,svg.light-mode.copicon-1rjcuf {
+    --color-fill-1: #fcd116;
+    --opacity-fill-1: 1;
+    --color-fill-2: #003893;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.czkicon-mq5fds path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .czkicon-mq5fds,svg.dark-mode.czkicon-mq5fds {
+    --color-fill-1: #4495ee;
+    --opacity-fill-1: .1;
+    --color-fill-2: #d7141a;
+    --opacity-fill-2: 1;
+    --color-fill-3: #d7141a;
+    --opacity-fill-3: 1;
+    --color-border: #4495ee;
+    --opacity-border: .2
+}
+
+.czkicon-mq5fds,svg.light-mode.czkicon-mq5fds {
+    --color-fill-1: #4495ee;
+    --opacity-fill-1: 1;
+    --color-fill-2: #a70c10;
+    --opacity-fill-2: 1;
+    --color-fill-3: #a70c10;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.dkkicon-1xvcd0 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .dkkicon-1xvcd0,svg.dark-mode.dkkicon-1xvcd0 {
+    --color-fill-1: #c60c30;
+    --opacity-fill-1: .18;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: #c60c30;
+    --opacity-border: .28
+}
+
+.dkkicon-1xvcd0,svg.light-mode.dkkicon-1xvcd0 {
+    --color-fill-1: #c60c30;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.euricon-ejaubc path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .euricon-ejaubc,svg.dark-mode.euricon-ejaubc {
+    --color-fill-1: #418df0;
+    --opacity-fill-1: .1;
+    --color-fill-2: #418df0;
+    --opacity-fill-2: 1;
+    --color-border: #418df0;
+    --opacity-border: .2
+}
+
+.euricon-ejaubc,svg.light-mode.euricon-ejaubc {
+    --color-fill-1: #418df0;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.gbpicon-1lzjsc path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .gbpicon-1lzjsc,svg.dark-mode.gbpicon-1lzjsc {
+    --color-fill-1: #5183ff;
+    --opacity-fill-1: .1;
+    --color-fill-2: #ff435a;
+    --opacity-fill-2: 1;
+    --color-border: #5183ff;
+    --opacity-border: .2
+}
+
+.gbpicon-1lzjsc,svg.light-mode.gbpicon-1lzjsc {
+    --color-fill-1: #00247d;
+    --opacity-fill-1: 1;
+    --color-fill-2: #cf142b;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.hkdicon-19o91t path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .hkdicon-19o91t,svg.dark-mode.hkdicon-19o91t {
+    --color-fill-1: #ff353e;
+    --opacity-fill-1: .1;
+    --color-fill-2: #ff353e;
+    --opacity-fill-2: 1;
+    --color-border: #ff353e;
+    --opacity-border: .2
+}
+
+.hkdicon-19o91t,svg.light-mode.hkdicon-19o91t {
+    --color-fill-1: #ee1c25;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.huficon-fmlph4 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .huficon-fmlph4,svg.dark-mode.huficon-fmlph4 {
+    --color-fill-1: #ff3b50;
+    --opacity-fill-1: .1;
+    --color-fill-2: #63f484;
+    --opacity-fill-2: 1;
+    --color-fill-3: #63f484;
+    --opacity-fill-3: 1;
+    --color-border: #ff3b50;
+    --opacity-border: .2
+}
+
+.huficon-fmlph4,svg.light-mode.huficon-fmlph4 {
+    --color-fill-1: #ce1126;
+    --opacity-fill-1: 1;
+    --color-fill-2: #63f484;
+    --opacity-fill-2: 1;
+    --color-fill-3: #63f484;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.idricon-1oh5n8 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .idricon-1oh5n8,svg.dark-mode.idricon-1oh5n8 {
+    --color-fill-1: #ef383b;
+    --opacity-fill-1: .4;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: #ef383b;
+    --opacity-border: .6
+}
+
+.idricon-1oh5n8,svg.light-mode.idricon-1oh5n8 {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.ilsicon-1cis4x path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .ilsicon-1cis4x,svg.dark-mode.ilsicon-1cis4x {
+    --color-fill-1: #5085ff;
+    --opacity-fill-1: .1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #5085ff;
+    --opacity-border: .2
+}
+
+.ilsicon-1cis4x,svg.light-mode.ilsicon-1cis4x {
+    --color-fill-1: #0038b8;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.inricon-1ihbzi path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .inricon-1ihbzi,svg.dark-mode.inricon-1ihbzi {
+    --color-fill-1: #e4c860;
+    --opacity-fill-1: .1;
+    --color-fill-2: #5ea82c;
+    --opacity-fill-2: 1;
+    --color-border: #e4c860;
+    --opacity-border: .2
+}
+
+.inricon-1ihbzi,svg.light-mode.inricon-1ihbzi {
+    --color-fill-1: #e4c860;
+    --opacity-fill-1: 1;
+    --color-fill-2: #335e16;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.jpyicon-1wef5v path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .jpyicon-1wef5v,svg.dark-mode.jpyicon-1wef5v {
+    --color-fill-1: #d2b95d;
+    --opacity-fill-1: .1;
+    --color-fill-2: #d2b95d;
+    --opacity-fill-2: 1;
+    --color-border: #d2b95d;
+    --opacity-border: .2
+}
+
+.jpyicon-1wef5v,svg.light-mode.jpyicon-1wef5v {
+    --color-fill-1: #e4c860;
+    --opacity-fill-1: 1;
+    --color-fill-2: black;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.krwicon-jj8d0g path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .krwicon-jj8d0g,svg.dark-mode.krwicon-jj8d0g {
+    --color-fill-1: #4595f1;
+    --opacity-fill-1: .3;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #4595f1;
+    --opacity-border: .4
+}
+
+.krwicon-jj8d0g,svg.light-mode.krwicon-jj8d0g {
+    --color-fill-1: #4595f1;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.mxnicon-1yk7xx path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .mxnicon-1yk7xx,svg.dark-mode.mxnicon-1yk7xx {
+    --color-fill-1: #8adb44;
+    --opacity-fill-1: .1;
+    --color-fill-2: #ec4e51;
+    --opacity-fill-2: 1;
+    --color-border: #8adb44;
+    --opacity-border: .2
+}
+
+.mxnicon-1yk7xx,svg.light-mode.mxnicon-1yk7xx {
+    --color-fill-1: #8be340;
+    --opacity-fill-1: 1;
+    --color-fill-2: #c91b1e;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.myricon-1iaxrh path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .myricon-1iaxrh,svg.dark-mode.myricon-1iaxrh {
+    --color-fill-1: #208cf7;
+    --opacity-fill-1: .1;
+    --color-fill-2: #ffd100;
+    --opacity-fill-2: 1;
+    --color-fill-3: #ffd100;
+    --opacity-fill-3: 1;
+    --color-border: #208cf7;
+    --opacity-border: .2
+}
+
+.myricon-1iaxrh,svg.light-mode.myricon-1iaxrh {
+    --color-fill-1: #003366;
+    --opacity-fill-1: 1;
+    --color-fill-2: #ffd100;
+    --opacity-fill-2: 1;
+    --color-fill-3: #ffd100;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.ngnicon-1walep path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .ngnicon-1walep,svg.dark-mode.ngnicon-1walep {
+    --color-fill-1: #4ba568;
+    --opacity-fill-1: .3;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #4ba568;
+    --opacity-border: .4
+}
+
+.ngnicon-1walep,svg.light-mode.ngnicon-1walep {
+    --color-fill-1: #4ba568;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.nokicon-8o4zko path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .nokicon-8o4zko,svg.dark-mode.nokicon-8o4zko {
+    --color-fill-1: #ff4b6f;
+    --opacity-fill-1: .1;
+    --color-fill-2: #0850d4;
+    --opacity-fill-2: 1;
+    --color-fill-3: #0850d4;
+    --opacity-fill-3: 1;
+    --color-border: #ba0c2f;
+    --opacity-border: .2
+}
+
+.nokicon-8o4zko,svg.light-mode.nokicon-8o4zko {
+    --color-fill-1: #ff2c57;
+    --opacity-fill-1: 1;
+    --color-fill-2: #00205b;
+    --opacity-fill-2: 1;
+    --color-fill-3: #00205b;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.nzdicon-1l4ogh path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .nzdicon-1l4ogh,svg.dark-mode.nzdicon-1l4ogh {
+    --color-fill-1: #5581f0;
+    --opacity-fill-1: .13;
+    --color-fill-2: #ff334d;
+    --opacity-fill-2: 1;
+    --color-border: #5581f0;
+    --opacity-border: .23
+}
+
+.nzdicon-1l4ogh,svg.light-mode.nzdicon-1l4ogh {
+    --color-fill-1: #153279;
+    --opacity-fill-1: 1;
+    --color-fill-2: #ff334d;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.penicon-9mibew path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .penicon-9mibew,svg.dark-mode.penicon-9mibew {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: .3;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: #d83134;
+    --opacity-border: .4
+}
+
+.penicon-9mibew,svg.light-mode.penicon-9mibew {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-fill-3: white;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.phpicon-1v7skg path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .phpicon-1v7skg,svg.dark-mode.phpicon-1v7skg {
+    --color-fill-1: #4595f1;
+    --opacity-fill-1: .3;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #4595f1;
+    --opacity-border: .4
+}
+
+.phpicon-1v7skg,svg.light-mode.phpicon-1v7skg {
+    --color-fill-1: #4595f1;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.plnicon-j7ks6w path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .plnicon-j7ks6w,svg.dark-mode.plnicon-j7ks6w {
+    --color-fill-1: #eff6fe;
+    --opacity-fill-1: .05;
+    --color-fill-2: #e13639;
+    --opacity-fill-2: 1;
+    --color-fill-3: #e13639;
+    --opacity-fill-3: 1;
+    --color-border: #eff6fe;
+    --opacity-border: .15
+}
+
+.plnicon-j7ks6w,svg.light-mode.plnicon-j7ks6w {
+    --color-fill-1: #e9edf0;
+    --opacity-fill-1: 1;
+    --color-fill-2: #d83134;
+    --opacity-fill-2: 1;
+    --color-fill-3: #d83134;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.ronicon-l37pmi path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .ronicon-l37pmi,svg.dark-mode.ronicon-l37pmi {
+    --color-fill-1: #ffd100;
+    --opacity-fill-1: .12;
+    --color-fill-2: #286df2;
+    --opacity-fill-2: 1;
+    --color-border: #ffd100;
+    --opacity-border: .2
+}
+
+.ronicon-l37pmi,svg.light-mode.ronicon-l37pmi {
+    --color-fill-1: #ffd100;
+    --opacity-fill-1: 1;
+    --color-fill-2: #002b7f;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.rubicon-whqgb4 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .rubicon-whqgb4,svg.dark-mode.rubicon-whqgb4 {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: .3;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #d83134;
+    --opacity-border: .4
+}
+
+.rubicon-whqgb4,svg.light-mode.rubicon-whqgb4 {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.sekicon-1e14d4 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .sekicon-1e14d4,svg.dark-mode.sekicon-1e14d4 {
+    --color-fill-1: #2b9ee0;
+    --opacity-fill-1: .1;
+    --color-fill-2: #fecc00;
+    --opacity-fill-2: 1;
+    --color-fill-3: #fecc00;
+    --opacity-fill-3: 1;
+    --color-border: #2b9ee0;
+    --opacity-border: .2
+}
+
+.sekicon-1e14d4,svg.light-mode.sekicon-1e14d4 {
+    --color-fill-1: #004e7b;
+    --opacity-fill-1: 1;
+    --color-fill-2: #fecc00;
+    --opacity-fill-2: 1;
+    --color-fill-3: #fecc00;
+    --opacity-fill-3: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.sgdicon-1kp4ee path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .sgdicon-1kp4ee,svg.dark-mode.sgdicon-1kp4ee {
+    --color-fill-1: #ef3340;
+    --opacity-fill-1: .1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #ef3340;
+    --opacity-border: .2
+}
+
+.sgdicon-1kp4ee,svg.light-mode.sgdicon-1kp4ee {
+    --color-fill-1: #ef3340;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.thbicon-1gjxd0 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .thbicon-1gjxd0,svg.dark-mode.thbicon-1gjxd0 {
+    --color-fill-1: #6d5eff;
+    --opacity-fill-1: .1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #6d5eff;
+    --opacity-border: .2
+}
+
+.thbicon-1gjxd0,svg.light-mode.thbicon-1gjxd0 {
+    --color-fill-1: #3f3972;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.tryicon-1tc9kj path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .tryicon-1tc9kj,svg.dark-mode.tryicon-1tc9kj {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: .3;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: #d83134;
+    --opacity-border: .4
+}
+
+.tryicon-1tc9kj,svg.light-mode.tryicon-1tc9kj {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: 1;
+    --color-fill-2: white;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.usdicon-c3wet4 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .usdicon-c3wet4,svg.dark-mode.usdicon-c3wet4 {
+    --color-fill-1: #8adb44;
+    --opacity-fill-1: .1;
+    --color-fill-2: #8adb44;
+    --opacity-fill-2: 1;
+    --color-border: #8adb44;
+    --opacity-border: .2
+}
+
+.usdicon-c3wet4,svg.light-mode.usdicon-c3wet4 {
+    --color-fill-1: #8adb44;
+    --opacity-fill-1: 1;
+    --color-fill-2: #1b1d29;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.vndicon-wpwnk1 path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .vndicon-wpwnk1,svg.dark-mode.vndicon-wpwnk1 {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: .3;
+    --color-fill-2: #f6ca45;
+    --opacity-fill-2: 1;
+    --color-border: #d83134;
+    --opacity-border: .4
+}
+
+.vndicon-wpwnk1,svg.light-mode.vndicon-wpwnk1 {
+    --color-fill-1: #d83134;
+    --opacity-fill-1: 1;
+    --color-fill-2: #f6ca45;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}
+
+.zaricon-cfrr8u path {
+    transition: stroke .3s ease-in-out,fill .3s ease-in-out,opacity .3s ease-in-out
+}
+
+.thrill-dark-theme .zaricon-cfrr8u,svg.dark-mode.zaricon-cfrr8u {
+    --color-fill-1: #00d258;
+    --opacity-fill-1: .1;
+    --color-fill-2: #fcd116;
+    --opacity-fill-2: 1;
+    --color-border: #00d258;
+    --opacity-border: .2
+}
+
+.zaricon-cfrr8u,svg.light-mode.zaricon-cfrr8u {
+    --color-fill-1: #007a33;
+    --opacity-fill-1: 1;
+    --color-fill-2: #fcd116;
+    --opacity-fill-2: 1;
+    --color-border: transparent;
+    --opacity-border: 0
+}

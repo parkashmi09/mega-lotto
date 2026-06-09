@@ -1,0 +1,27 @@
+{
+  "common": {
+    "loading": "A carregar…",
+    "error": "Falha ao carregar a configuração",
+    "primary": "Principal",
+    "accent": "Destaque",
+    "success": "Sucesso"
+  },
+  "app": {
+    "title": "Casino",
+    "featuresTitle": "Funcionalidades ativas (config + enums)",
+    "themeTitle": "Cores do tema (dinâmico)",
+    "sports": "Desporto",
+    "tables": "Mesa",
+    "originals": "Originais",
+    "football": "Futebol",
+    "basketball": "Basquete",
+    "tennis": "Ténis",
+    "blackjack": "Blackjack",
+    "roulette": "Roleta",
+    "baccarat": "Baccarat",
+    "slots": "Slots",
+    "liveCasino": "Casino ao vivo",
+    "configTheme": "Config: theme = {{theme}}, plan = {{plan}}",
+    "language": "Idioma"
+  }
+}

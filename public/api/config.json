@@ -1,0 +1,58 @@
+{
+  "platform_name": "Mega Lotto",
+  "website_name": "Mega Lotto",
+  "domain_name": "megalotto.com",
+  "site_email_address": "support@megalotto.com",
+  "logo": "https://claps.com/minio/logos/claps-logo.svg",
+  "mobile_logo": "https://claps.com/minio/logos/claps-logo.svg",
+  "favicon": "/favicon.svg",
+  "default_language": "en",
+  "meta_description": "Mega Lotto – Play global lottery draws, pick your numbers, and win big jackpots.",
+  "theme_name": "thrill_template",
+  "subscription_plan": "standard",
+  "game_providers": [
+    "pragmatic",
+    "netent",
+    "evolution"
+  ],
+  "platform_config": {
+    "max_bet": 10000,
+    "min_bet": 0.1,
+    "currency": "USD",
+    "maintenance_mode": false
+  },
+  "payment_methods": [
+    "card",
+    "e_wallet",
+    "crypto"
+  ],
+  "active_sports": [],
+  "active_tables": [],
+  "active_originals": [],
+  "active_casino_originals": [],
+  "casino_active": false,
+  "lottery_active": true,
+  "active_lotteries": ["powerball", "mega_millions", "euro_jackpot", "daily_pick", "keno_draw"],
+  "affiliate": {
+    "enabled": false,
+    "commission_rate": 0
+  },
+  "supported_languages": [
+    "en",
+    "ta"
+  ],
+  "default_coin": "USDT",
+  "native_coin": {
+    "available": true,
+    "details": {
+      "id": 70,
+      "name": "Native coin",
+      "preffix": "SC",
+      "image": "SC.png",
+      "min": "0.00008000",
+      "active": true,
+      "test": false,
+      "network": "SC"
+    }
+  }
+}

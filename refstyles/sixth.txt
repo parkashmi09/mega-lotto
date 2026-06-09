@@ -1,0 +1,17 @@
+@keyframes gameTileFadeSlide {
+    0% {
+        opacity: 0%;
+        transform: translateY(30px)
+    }
+
+    to {
+        opacity: 100%;
+        transform: translate(0)
+    }
+}
+
+.game-tile-animate {
+    opacity: 0;
+    animation: gameTileFadeSlide .2s ease-out forwards;
+    animation-delay: var(--game-tile-animation-delay)
+}

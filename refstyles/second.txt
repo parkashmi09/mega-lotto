@@ -1,0 +1,21 @@
+.divider.svelte-1j96wlh {
+    background: linear-gradient(90deg,#858fa600,#858fa626,#858fa600)
+}
+
+.error-code-heading.svelte-1j96wlh {
+    text-box: trim-both cap alphabetic
+}
+
+@supports not (text-box: trim-both cap alphabetic) {
+    .error-code-heading.svelte-1j96wlh:before {
+        content: "";
+        display: table;
+        margin-bottom: -.2em
+    }
+
+    .error-code-heading.svelte-1j96wlh:after {
+        content: "";
+        display: table;
+        margin-top: -.31em
+    }
+}

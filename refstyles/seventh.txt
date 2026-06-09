@@ -1,0 +1,28 @@
+.inner-glow.svelte-1nkxw34 {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--glow-offset);
+    pointer-events: none;
+    background-position-y: calc(var(--glow-offset) * -1);
+    background-repeat: no-repeat;
+    transition: opacity .6s ease-out;
+    clip-path: circle(50%)
+}
+
+.inner-glow-in-progress.svelte-1nkxw34 {
+    background-image: radial-gradient(50px 50px at 50% 50%,var(--color-rewards-purple-glow) 99%,transparent 100%);
+    filter: blur(20px)
+}
+
+.inner-glow-complete.svelte-1nkxw34 {
+    background-image: radial-gradient(50px 50px at 50% 50%,var(--color-rewards-circular-progress-glow-complete) 99%,transparent 100%);
+    filter: blur(32px)
+}
+
+.progress-animation {
+    transition: stroke-dashoffset 1s ease-out,stroke .6s ease-out,filter .6s ease-out
+}
+
+.progress-glow-in-progress {
+    filter: drop-shadow(0 0 14px var(--color-rewards-circular-progress-glow, rgba(89, 86, 255, .3)))
+}

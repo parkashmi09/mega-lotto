@@ -1,0 +1,21 @@
+#root {
+  min-height: 100vh;
+}
+
+/* Keno game animations */
+@keyframes bounceOnce {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.04); }
+}
+
+@keyframes fadeInTile {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate(-2px); }
+  20%, 80% { transform: translate(2px); }
+  30%, 50%, 70% { transform: translate(-3px); }
+  40%, 60% { transform: translate(3px); }
+}

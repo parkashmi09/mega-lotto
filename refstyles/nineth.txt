@@ -1,0 +1,93 @@
+input.svelte-1kxln6h:-webkit-autofill,input.svelte-1kxln6h:-webkit-autofill:hover,input.svelte-1kxln6h:-webkit-autofill:focus,input.svelte-1kxln6h:-webkit-autofill:active {
+    transition: background-color calc(infinity * 1s) step-end;
+    -webkit-text-fill-color: var(--color-foreground-primary)
+}
+
+.pulse.svelte-hybrj3 {
+    animation: svelte-hybrj3-pulse-and-fade 1.2s ease-in-out infinite;
+    transform-origin: center
+}
+
+@keyframes svelte-hybrj3-pulse-and-fade {
+    0% {
+        opacity: .5;
+        transform: scale(.85)
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1)
+    }
+
+    to {
+        opacity: .5;
+        transform: scale(.85)
+    }
+}
+
+@keyframes informational-tooltip-bounce {
+    0%,to {
+        transform: translateY(0)
+    }
+
+    50% {
+        transform: translateY(-5px)
+    }
+}
+
+.informational-tooltip-bounce {
+    animation: informational-tooltip-bounce 1.2s ease-in-out .6s infinite
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .informational-tooltip-bounce {
+        animation: none
+    }
+}
+
+@keyframes context-menu-content-blur-fade-in {
+    0% {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+input.svelte-29c358:-webkit-autofill,input.svelte-29c358:-webkit-autofill:hover,input.svelte-29c358:-webkit-autofill:focus,input.svelte-29c358:-webkit-autofill:active {
+    transition: background-color calc(infinity * 1s) step-end;
+    -webkit-text-fill-color: var(--color-foreground-primary)
+}
+
+.bottom-nav-tab.svelte-vfg8z4:before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset-inline: -.6px;
+    inset-block: calc(var(--spacing-6) * -1);
+    border-width: var(--spacing-2);
+    border-style: solid;
+    border-radius: var(--spacing-12);
+    transition: border-color .15s;
+    border-color: transparent
+}
+
+.bottom-nav-tab.svelte-vfg8z4:focus-visible:before {
+    border-color: var(--color-foreground-primary)
+}
+
+textarea.svelte-183b5qa:-webkit-autofill,textarea.svelte-183b5qa:-webkit-autofill:hover,textarea.svelte-183b5qa:-webkit-autofill:focus,textarea.svelte-183b5qa:-webkit-autofill:active {
+    transition: background-color calc(infinity * 1s) step-end;
+    -webkit-text-fill-color: var(--color-foreground-primary)
+}
+
+@keyframes pin-input-blink {
+    0% {
+        opacity: 1
+    }
+
+    to {
+        opacity: 0
+    }
+}
