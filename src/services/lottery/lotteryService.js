@@ -17,7 +17,7 @@ const MOCK_CATALOG_URL = '/api/lotteries.json';
 // pick `pick` numbers out of 1..`pool`. price in the platform currency.
 export const DRAW_CATALOG = {
   [Lottery.POWERBALL]:     { id: Lottery.POWERBALL,     name: 'Powerball',   pool: 49, pick: 6, price: 100, jackpot: 120_000_000, color: '#e23b3b', intervalHours: 168,       categories: ['mega', 'weekly'] },
-  [Lottery.MEGA_MILLIONS]: { id: Lottery.MEGA_MILLIONS, name: 'Mega Lotto',  pool: 70, pick: 5, price: 1000, jackpot: 89_000_000,  color: '#f0a020', intervalHours: 0.0166667, categories: ['mega'] },
+  [Lottery.MEGA_MILLIONS]: { id: Lottery.MEGA_MILLIONS, name: 'Mega Lotto',  pool: 70, pick: 5, price: 1000, jackpot: 10_000_000,  color: '#f0a020', intervalHours: 0.0166667, categories: ['mega'] },
   [Lottery.EURO_JACKPOT]:  { id: Lottery.EURO_JACKPOT,  name: 'EuroJackpot', pool: 50, pick: 5, price: 150, jackpot: 45_000_000,  color: '#5b8def', intervalHours: 720,       categories: ['mega', 'monthly'] },
   [Lottery.DAILY_PICK]:    { id: Lottery.DAILY_PICK,    name: 'Daily Pick',  pool: 36, pick: 4, price: 50,  jackpot: 250_000,     color: '#27c498', intervalHours: 24,        categories: ['daily', 'mega'] },
   [Lottery.KENO_DRAW]:     { id: Lottery.KENO_DRAW,     name: 'Keno Draw',   pool: 80, pick: 10, price: 50, jackpot: 1_000_000,   color: '#9b6bdf', intervalHours: 12,        categories: ['instant', 'daily'] },
@@ -120,7 +120,7 @@ export function getMyTickets() {
   }
 }
 
-export function buyTicket({ lotteryId, name, color, number, price, closesAt }) {
+export function buyTicket({ lotteryId, name, color, number, price, jackpot, closesAt }) {
   const tickets = getMyTickets();
   const ticket = {
     id: `${lotteryId}-${Date.now()}-${Math.floor(Math.random() * 1e6)}`,
@@ -129,6 +129,7 @@ export function buyTicket({ lotteryId, name, color, number, price, closesAt }) {
     color,
     number: padTicket(number),
     price,
+    jackpot,
     drawAt: closesAt,
     status: 'pending',
     purchasedAt: new Date().toISOString(),
@@ -176,7 +177,7 @@ export function resolveTickets() {
         if (n.slice(-k) === w.slice(-k)) match = k; else break;
       }
       const base = tk.price || 100;
-      if (match >= 4) { tk.status = 'won'; tk.tier = 1; tk.prizeWon = base * 5000; }
+      if (match >= 4) { tk.status = 'won'; tk.tier = 1; tk.prizeWon = tk.jackpot || base * 5000; }
       else if (match === 3) { tk.status = 'won'; tk.tier = 2; tk.prizeWon = base * 50; }
       else if (match === 2) { tk.status = 'won'; tk.tier = 3; tk.prizeWon = base * 5; }
       else { tk.status = 'lost'; tk.prizeWon = 0; }

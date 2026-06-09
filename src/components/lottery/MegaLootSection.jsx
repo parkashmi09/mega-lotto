@@ -160,7 +160,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
     dispatch(deduct(total));
     const closesAt = computeClosesAt(draw.intervalHours);
     for (const number of selected) {
-      buyTicket({ lotteryId: draw.id, name: NAME, color: draw.color, number, price: draw.price, closesAt });
+      buyTicket({ lotteryId: draw.id, name: NAME, color: draw.color, number, price: draw.price, jackpot: draw.jackpot, closesAt });
     }
     toast.success(`${count} × ${NAME} ${t('lottery.purchaseSuccess', 'ticket(s) purchased')}`);
     navigate('/lottery/my-tickets');
