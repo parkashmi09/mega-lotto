@@ -159,6 +159,17 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
   const countdown = `${_pad(Math.min(99, Math.floor(_diff / 3_600_000)))}${_pad(Math.floor((_diff % 3_600_000) / 60_000))}${_pad(Math.floor((_diff % 60_000) / 1000))}`;
   const revealing = phase === 'revealing';
 
+  // timer / slot-reveal content, reused at a compact size in the mobile header
+  const timerView = (size) =>
+    revealing ? (
+      <div className="flex items-center gap-1.5">
+        <Trophy size={size <= 20 ? 12 : 14} style={{ color: 'var(--color-green-1)' }} />
+        <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={size} />
+      </div>
+    ) : (
+      <NeonTimer value={countdown} accent="var(--color-green-1)" size={size} />
+    );
+
   const count = selected.size;
   const total = (draw?.price ?? 0) * count;
 
@@ -269,14 +280,16 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
               <span className="flex size-[34px] items-center justify-center rounded-[10px] text-white" style={{ backgroundColor: draw.color }}>
                 <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor"><path d="M19 5.25c1.24 0 2.25 1.01 2.25 2.25v2a.75.75 0 0 1-.53.72 1.75 1.75 0 0 0 0 3.36.75.75 0 0 1 .53.72v2c0 1.24-1.01 2.25-2.25 2.25H5c-1.24 0-2.25-1.01-2.25-2.25v-2a.75.75 0 0 1 .53-.72 1.75 1.75 0 0 0 0-3.36A.75.75 0 0 1 2.75 9.5v-2C2.75 6.26 3.76 5.25 5 5.25z" /></svg>
               </span>
-              <div>
-                <h3 className="text-[16px] font-bold text-[var(--color-foreground-primary)]">{NAME}</h3>
+              <div className="min-w-0">
+                <h3 className="truncate text-[16px] font-bold text-[var(--color-foreground-primary)]">{NAME}</h3>
                 <p className="text-[12px] text-[var(--color-foreground-muted-1)]">{fmtMoney(draw.jackpot)} {t('lottery.jackpot', 'jackpot').toLowerCase()}</p>
               </div>
+              {/* Mobile: timer sits in the header to save vertical space */}
+              <div className="relative z-[1] ml-auto shrink-0 lg:hidden">{timerView(20)}</div>
             </div>
 
-            {/* Countdown → winner reveal */}
-            <div className="relative z-[1] flex min-h-[58px] items-center justify-between gap-2 rounded-[14px] bg-[var(--color-surface-2)] px-[14px] py-[10px]">
+            {/* Countdown → winner reveal (desktop row) */}
+            <div className="relative z-[1] hidden min-h-[58px] items-center justify-between gap-2 rounded-[14px] bg-[var(--color-surface-2)] px-[14px] py-[10px] lg:flex">
               {revealing ? (
                 <>
                   <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--color-green-1)' }}>
