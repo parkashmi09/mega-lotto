@@ -58,11 +58,14 @@ export function LotteryPage() {
     </div>
   );
 
-  // Mobile + Mega Lotto category → lead with only the Mega Lotto card, push the
-  // rest of the draw cards below the buy hero. Everywhere else → full grid on top.
+  // Layout per context (hero = Mega Lotto buy section):
+  //  • Mobile + Mega tab → only the Mega Lotto card on top, hero, then the rest.
+  //  • Web/desktop + Mega tab → hero on top, all draw cards below (original order).
+  //  • Any other category → all draw cards on top, hero below.
   const isMega = category === 'mega';
   const megaCard = gridDraws.find((d) => d.id === 'mega_millions');
   const splitMobileMega = isMobile && isMega && megaCard;
+  const desktopMega = !isMobile && isMega;
 
   const grid = loading
     ? loadingGrid
@@ -74,10 +77,14 @@ export function LotteryPage() {
     ? loadingGrid
     : splitMobileMega
       ? gridOf([megaCard])
-      : grid;
+      : desktopMega
+        ? null
+        : grid;
   const bottomGrid = splitMobileMega
     ? gridOf(gridDraws.filter((d) => d.id !== 'mega_millions'))
-    : null;
+    : desktopMega
+      ? grid
+      : null;
 
   return (
     <div className="space-y-6 py-4">
@@ -87,8 +94,6 @@ export function LotteryPage() {
       {/* Category carousel */}
       <LotteryCategoryCarousel activeCategory={category} onCategoryChange={setCategory} />
 
-      {/* Draw cards on top, Mega Lotto buy hero below. On mobile + Mega Lotto
-          category, only the Mega Lotto card sits on top; the rest go below. */}
       {topGrid}
       {heroSection}
       {bottomGrid}
