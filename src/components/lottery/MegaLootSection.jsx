@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 import { useSelector, useDispatch } from 'react-redux';
-import { Shuffle, X, Search, IndianRupee, Clock, Ticket, Trophy } from 'lucide-react';
+import { Shuffle, X, Search, IndianRupee, Clock, Ticket } from 'lucide-react';
 import { getDrawById, buyTicket, getMyTickets, randomTicketNumber, padTicket, TICKET_MAX, winningNumbersFor } from '../../services/lottery/lotteryService.js';
 import { deduct } from '../../store/walletSlice.js';
 import { useAuthState } from '../../hooks/useAuthState.js';
@@ -108,10 +108,14 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
     }
     return () => { fireRef.current = null; };
   }, []);
+  // Party-popper "cracker" burst (canvas-confetti) — two angled shots from the
+  // sides, fired beside the timer each time a prize is revealed.
   const popConfetti = () => {
     const fire = fireRef.current;
     if (!fire) return;
-    fire({ particleCount: 60, spread: 80, startVelocity: 28, scalar: 0.7, ticks: 120, gravity: 1.1, origin: { x: 0.5, y: 0.4 }, colors: [draw?.color || '#34d399', '#22d3c4', '#ffffff'] });
+    const colors = [draw?.color || '#34d399', '#22d3c4', '#ffffff', '#f0a020'];
+    fire({ particleCount: 55, angle: 60, spread: 55, startVelocity: 34, scalar: 0.8, ticks: 140, gravity: 1.05, origin: { x: 0.08, y: 0.32 }, colors });
+    fire({ particleCount: 55, angle: 120, spread: 55, startVelocity: 34, scalar: 0.8, ticks: 140, gravity: 1.05, origin: { x: 0.92, y: 0.32 }, colors });
   };
 
   useEffect(() => {
@@ -162,10 +166,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
   // timer / slot-reveal content, reused at a compact size in the mobile header
   const timerView = (size) =>
     revealing ? (
-      <div className="flex items-center gap-1.5">
-        <Trophy size={size <= 20 ? 12 : 14} style={{ color: 'var(--color-green-1)' }} />
-        <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={size} />
-      </div>
+      <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={size} />
     ) : (
       <NeonTimer value={countdown} accent="var(--color-green-1)" size={size} />
     );
@@ -293,7 +294,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
               {revealing ? (
                 <>
                   <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--color-green-1)' }}>
-                    <Trophy size={14} /> {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
+                    {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
                   </span>
                   <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={24} />
                 </>
