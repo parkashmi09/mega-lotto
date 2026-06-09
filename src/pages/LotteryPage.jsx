@@ -32,7 +32,6 @@ export function LotteryPage() {
     return () => { alive = false; };
   }, [activeLotteries]);
 
-  const isMega = category === 'mega';
   // Every draw matching the selected category shows as a card (Mega Lotto too).
   const gridDraws = useMemo(
     () => draws.filter((d) => (d.categories || []).includes(category)),
@@ -62,19 +61,9 @@ export function LotteryPage() {
       {/* Category carousel */}
       <LotteryCategoryCarousel activeCategory={category} onCategoryChange={setCategory} />
 
-      {/* Mega Lotto category → hero on top, draws below.
-          Other categories → that category's draw cards on top, Mega Lotto hero below. */}
-      {isMega ? (
-        <>
-          {heroSection}
-          {grid}
-        </>
-      ) : (
-        <>
-          {grid}
-          {heroSection}
-        </>
-      )}
+      {/* Every category → that category's draw cards on top, Mega Lotto buy hero below. */}
+      {grid}
+      {heroSection}
 
       {/* Latest winners (last results) */}
       <LatestWinners />
