@@ -44,8 +44,8 @@ export const defaultConfig = Object.freeze({
   active_casino_originals: [],
   lottery_active: true,
   active_lotteries: [
-    Lottery.POWERBALL,
     Lottery.MEGA_MILLIONS,
+    Lottery.POWERBALL,
     Lottery.EURO_JACKPOT,
     Lottery.DAILY_PICK,
     Lottery.KENO_DRAW,

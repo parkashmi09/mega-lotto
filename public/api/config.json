@@ -32,7 +32,7 @@
   "active_casino_originals": [],
   "casino_active": false,
   "lottery_active": true,
-  "active_lotteries": ["powerball", "mega_millions", "euro_jackpot", "daily_pick", "keno_draw"],
+  "active_lotteries": ["mega_millions", "powerball", "euro_jackpot", "daily_pick", "keno_draw"],
   "affiliate": {
     "enabled": false,
     "commission_rate": 0
