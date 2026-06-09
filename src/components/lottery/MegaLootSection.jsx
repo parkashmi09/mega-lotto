@@ -274,8 +274,8 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
         <div className="order-1 flex h-[480px] min-w-0 flex-col rounded-[24px] bg-[var(--color-surface-1)] p-[16px] sm:rounded-[28px] sm:p-[20px] lg:order-2 lg:flex-1">
           {/* Inline expandable search — icon collapses; expands left to full width.
               Typing opens a results dropdown right below the input. */}
-          <div className="relative z-10 mb-[12px] flex shrink-0 justify-start">
-            <div className={`flex items-center overflow-hidden rounded-full bg-[var(--color-surface-2)] transition-[width] duration-300 ease-out ${searchOpen ? 'w-full' : 'w-[44px]'}`}>
+          <div className="relative z-10 mb-[12px] flex shrink-0 items-center gap-3">
+            <div className={`flex shrink-0 items-center overflow-hidden rounded-full bg-[var(--color-surface-2)] transition-[width] duration-300 ease-out ${searchOpen ? 'w-full' : 'w-[44px]'}`}>
               <button
                 type="button"
                 onClick={() => (searchOpen ? closeSearch() : openSearch())}
@@ -302,6 +302,13 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
                 </button>
               )}
             </div>
+
+            {/* Board heading — fades out when the search expands */}
+            {!searchOpen && (
+              <h3 className="min-w-0 flex-1 truncate pr-2 text-center text-[15px] font-bold uppercase tracking-wide text-[var(--color-foreground-primary)] duration-200 animate-in fade-in-0">
+                {t('lottery.pickYourNumber', 'Pick Your Lucky Number')}
+              </h3>
+            )}
 
             {/* Results dropdown — just below the input */}
             {showDropdown && (
