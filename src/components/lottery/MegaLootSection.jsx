@@ -185,16 +185,11 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
       {/* Tile gradient defs — rendered once for the whole section */}
       <TileGradients />
 
-      {/* SEO heading + intro copy */}
+      {/* Heading */}
       <div className="mb-[16px]">
         <h2 id="megaloot-heading" className="text-[22px] font-extrabold uppercase tracking-wide text-[var(--color-foreground-primary)]">
           {NAME} — {t('lottery.buyTicket', 'Buy Ticket')}
         </h2>
-        <p className="mt-1 max-w-[760px] text-[13px] leading-relaxed text-[var(--color-foreground-muted-1)]">
-          Play <strong>{NAME}</strong> online for a {fmtMoney(draw.jackpot)} jackpot. Pick your lucky
-          4-digit number (0001–9999), buy your ticket instantly and follow the live draw — right here from
-          the home page.
-        </p>
       </div>
 
       <div className="flex w-full flex-col gap-[16px] lg:flex-row">
