@@ -192,7 +192,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
         </h2>
       </div>
 
-      <div className="rounded-[28px] bg-[var(--color-surface-2)]/40 p-2.5 sm:p-3">
+      <div className="rounded-[28px] bg-[color-mix(in_srgb,var(--color-surface-3)_55%,var(--color-surface-1))] p-2.5 ring-1 ring-white/[0.05] sm:p-3">
       <div className="flex w-full flex-col gap-[12px] lg:flex-row">
         {/* Left — info + actions */}
         <div className="order-2 w-full shrink-0 lg:order-1 lg:w-[340px] lg:min-w-[340px]">
