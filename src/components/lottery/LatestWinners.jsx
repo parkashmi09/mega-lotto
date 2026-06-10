@@ -76,14 +76,12 @@ export default function LatestWinners() {
         <span>{t('lottery.prize', 'Prize')}</span>
       </div>
 
-      {/* Rows — hover + zebra */}
-      <div className="flex flex-col gap-1">
+      {/* Rows — each a consistent, defined card */}
+      <div className="flex flex-col gap-2">
         {winners.map((w, i) => (
           <div
             key={i}
-            className={`grid grid-cols-2 items-center gap-x-3 gap-y-3 rounded-[14px] px-3 py-3 transition-colors hover:bg-[var(--color-surface-2)]/60 sm:grid-cols-[1.7fr_1.7fr_1fr_1fr] ${
-              i % 2 === 1 ? 'bg-[var(--color-surface-2)]/35' : 'bg-transparent'
-            }`}
+            className="grid grid-cols-2 items-center gap-x-3 gap-y-3 rounded-[14px] border border-white/[0.06] bg-[var(--color-surface-1)] px-3 py-3 transition-colors hover:border-white/10 hover:bg-[var(--color-surface-2)] sm:grid-cols-[1.7fr_1.7fr_1fr_1fr]"
           >
             {/* Winner + time */}
             <div className="col-span-2 flex items-center gap-3 sm:col-span-1">
