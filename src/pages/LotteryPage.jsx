@@ -40,7 +40,21 @@ export function LotteryPage() {
     [draws, category]
   );
 
-  const heroSection = <MegaLootSection lotteryId="mega_millions" />;
+  // The featured buy hero follows the selected category — its heading and
+  // number board switch to that category's headline draw. Falls back to the
+  // first draw in the category, then Mega Lotto.
+  const CATEGORY_HERO = {
+    mega: 'mega_millions',
+    instant: 'keno_draw',
+    daily: 'daily_pick',
+    weekly: 'powerball',
+    monthly: 'euro_jackpot',
+  };
+  const heroLotteryId =
+    draws.find((d) => d.id === CATEGORY_HERO[category])?.id ||
+    gridDraws[0]?.id ||
+    'mega_millions';
+  const heroSection = <MegaLootSection key={heroLotteryId} lotteryId={heroLotteryId} />;
 
   const gridOf = (list) => (
     <div className="grid gap-4 sm:grid-cols-2">
