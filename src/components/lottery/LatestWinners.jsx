@@ -109,7 +109,6 @@ export default function LatestWinners() {
 
             {/* Number (+ position pill beside it on mobile) */}
             <div className="col-span-2 sm:col-span-1">
-              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.number', 'Number')}</p>
               <div className="flex items-center justify-between gap-3">
               <div
                 className="relative inline-flex items-center gap-1.5 py-2 pl-5 pr-4"
