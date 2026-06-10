@@ -31,10 +31,10 @@ export default function TicketCard({ tk }) {
 
   return (
     <article
-      className="group relative block overflow-hidden rounded-[22px] transition-transform duration-300 hover:-translate-y-1"
+      className="group relative block overflow-hidden rounded-[22px] border transition-transform duration-300 hover:-translate-y-1"
       style={{
         background: `radial-gradient(135% 100% at 92% -10%, color-mix(in srgb, ${brand} 26%, transparent) 0%, transparent 58%), linear-gradient(155deg, color-mix(in srgb, ${brand} 12%, #0c1024) 0%, #080b16 100%)`,
-        filter: `drop-shadow(0 0 1px color-mix(in srgb, ${glow} 55%, transparent)) drop-shadow(0 10px 26px color-mix(in srgb, ${glow} 26%, transparent))`,
+        borderColor: `color-mix(in srgb, ${glow} 24%, transparent)`,
       }}
     >
       {/* ── top: brand + status ── */}
@@ -90,11 +90,12 @@ export default function TicketCard({ tk }) {
         </div>
       </div>
 
-      {/* ── perforation with side notches ── */}
+      {/* ── perforation tear: side notches bitten out of the edges + a crisp
+           dashed line so the stub reads like a real ticket ── */}
       <div className="relative z-[1] h-0">
-        <span className="absolute -left-2.5 top-1/2 size-5 -translate-y-1/2 rounded-full bg-[var(--color-background-primary)]" aria-hidden />
-        <span className="absolute -right-2.5 top-1/2 size-5 -translate-y-1/2 rounded-full bg-[var(--color-background-primary)]" aria-hidden />
-        <div className="mx-3 border-t-2 border-dashed border-white/12" aria-hidden />
+        <span className="absolute -left-2.5 top-1/2 size-5 -translate-y-1/2 rounded-full bg-[var(--color-background-primary)] ring-1 ring-inset ring-white/15" aria-hidden />
+        <span className="absolute -right-2.5 top-1/2 size-5 -translate-y-1/2 rounded-full bg-[var(--color-background-primary)] ring-1 ring-inset ring-white/15" aria-hidden />
+        <div className="mx-4 border-t-[2.5px] border-dashed border-white/25" aria-hidden />
       </div>
 
       {/* ── stub: meta ── */}
