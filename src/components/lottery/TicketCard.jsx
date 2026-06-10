@@ -84,17 +84,21 @@ export default function TicketCard({ tk }) {
               #{pending ? tk.number : (tk.winningNumber ?? tk.number)}
             </p>
           </div>
+          {/* Lost tickets have no prize — hide the block entirely instead of
+              showing an empty "—". */}
+          {!lost && (
           <div className="shrink-0 text-right">
             <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--color-foreground-muted-2)]">
               {won ? t('lottery.totalWon', 'Total Won') : t('lottery.prize', 'Prize')}
             </p>
             <p
               className="text-[18px] font-extrabold leading-tight tabular-nums"
-              style={{ color: won ? 'var(--color-green-1)' : lost ? 'var(--color-foreground-muted-2)' : 'var(--color-foreground-primary)' }}
+              style={{ color: won ? 'var(--color-green-1)' : 'var(--color-foreground-primary)' }}
             >
-              {won ? fmtMoney(tk.prizeWon) : lost ? '—' : fmtMoney(tk.jackpot)}
+              {won ? fmtMoney(tk.prizeWon) : fmtMoney(tk.jackpot)}
             </p>
           </div>
+          )}
         </div>
       </div>
 
