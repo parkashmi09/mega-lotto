@@ -90,12 +90,9 @@ export default function TicketCard({ tk }) {
         </div>
       </div>
 
-      {/* ── perforation tear: side notches bitten out of the edges + a crisp
-           dashed line so the stub reads like a real ticket ── */}
+      {/* ── perforation: a single clean dashed tear line (no side notches) ── */}
       <div className="relative z-[1] h-0">
-        <span className="absolute -left-2.5 top-1/2 size-5 -translate-y-1/2 rounded-full bg-[var(--color-background-primary)] ring-1 ring-inset ring-white/15" aria-hidden />
-        <span className="absolute -right-2.5 top-1/2 size-5 -translate-y-1/2 rounded-full bg-[var(--color-background-primary)] ring-1 ring-inset ring-white/15" aria-hidden />
-        <div className="mx-4 border-t-[2.5px] border-dashed border-white/25" aria-hidden />
+        <div className="mx-5 border-t-[2px] border-dashed border-white/20" aria-hidden />
       </div>
 
       {/* ── stub: meta ── */}
