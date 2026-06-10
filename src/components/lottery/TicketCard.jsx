@@ -90,9 +90,22 @@ export default function TicketCard({ tk }) {
         </div>
       </div>
 
-      {/* ── perforation: a single clean dashed tear line (no side notches) ── */}
-      <div className="relative z-[1] h-0">
-        <div className="mx-5 border-t-[2px] border-dashed border-white/20" aria-hidden />
+      {/* ── perforation tear: a round notch bitten out of each edge sitting
+           exactly on the dashed line. The notch is filled with the page
+           background so the seam is invisible, and a dark inset shadow makes
+           the bite read as a recessed cut (not a raised blob). ── */}
+      <div className="relative z-[2] h-0">
+        <span
+          className="absolute -left-[9px] top-1/2 size-[18px] -translate-y-1/2 rounded-full bg-[var(--color-background)]"
+          style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.55)' }}
+          aria-hidden
+        />
+        <span
+          className="absolute -right-[9px] top-1/2 size-[18px] -translate-y-1/2 rounded-full bg-[var(--color-background)]"
+          style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.55)' }}
+          aria-hidden
+        />
+        <div className="mx-[18px] border-t-2 border-dashed border-white/20" aria-hidden />
       </div>
 
       {/* ── stub: meta ── */}
