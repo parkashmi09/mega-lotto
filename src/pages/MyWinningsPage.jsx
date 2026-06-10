@@ -78,7 +78,7 @@ export function MyWinningsPage({ embedded = false }) {
                   </div>
                 </div>
                 <span className="shrink-0 rounded-full bg-[var(--color-green-1)]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[var(--color-green-1)] ring-1 ring-[var(--color-green-1)]/40">
-                  {TIER[tk.tier] || 'Win'}
+                  {tk.tier ? t(`lottery.prize${tk.tier}`, TIER[tk.tier]) : t('lottery.win', 'Win')}
                 </span>
               </div>
 

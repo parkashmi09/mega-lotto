@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CalendarDays, CalendarRange } from 'lucide-react';
 
 /** Mega Lottery ticket icon (fill-based, inherits currentColor). */
@@ -52,7 +53,17 @@ export const LOTTERY_CATEGORIES = [
   { id: 'monthly', label: 'Monthly', Icon: CalendarRange },
 ];
 
+/** Maps each category `id` to its i18n key. */
+const CATEGORY_LABEL_KEY = {
+  mega: 'lottery.cat.mega',
+  instant: 'lottery.cat.instant',
+  daily: 'lottery.cat.daily',
+  weekly: 'lottery.cat.weekly',
+  monthly: 'lottery.cat.monthly',
+};
+
 export default function LotteryCategoryCarousel({ activeCategory, onCategoryChange }) {
+  const { t } = useTranslation();
   const scrollRef = useRef(null);
   const [showArrow, setShowArrow] = useState(false);
 
@@ -99,7 +110,7 @@ export default function LotteryCategoryCarousel({ activeCategory, onCategoryChan
                   ? 'text-foreground-selected-secondary effect-glow'
                   : 'text-foreground-muted-1 group-hover:text-[var(--color-control-secondary-foreground-active)]'
               }`}>
-                {label}
+                {t(CATEGORY_LABEL_KEY[id], label)}
               </span>
             </button>
           );
@@ -110,7 +121,7 @@ export default function LotteryCategoryCarousel({ activeCategory, onCategoryChan
           <button
             onClick={scrollRight}
             className="rounded-64 shrink-0 bg-[var(--color-control-primary)] text-[var(--color-control-primary-foreground)] hover:bg-[var(--color-control-primary-active)] hover:text-[var(--color-control-primary-foreground-active)] cursor-pointer flex items-center justify-center transition-transform duration-150 hover:scale-110 p-3"
-            aria-label="Scroll right"
+            aria-label={t('lottery.scrollRight', 'Scroll right')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="24" height="24" className="size-2.5"><path fillRule="evenodd" d="M4.292 12c0-5.102.22-8.225.41-9.978.08-.718.488-1.307 1.087-1.596.6-.29 1.317-.242 1.927.153 1.175.759 3.026 2.063 5.732 4.244 3.148 2.537 4.837 4.418 5.707 5.563a2.63 2.63 0 0 1 0 3.228c-.87 1.145-2.56 3.025-5.707 5.562-2.706 2.182-4.558 3.487-5.732 4.246-.61.394-1.327.442-1.927.152s-1.008-.878-1.086-1.596c-.191-1.753-.411-4.876-.411-9.978" clipRule="evenodd" className="fill-current stroke-transparent" /></svg>
           </button>

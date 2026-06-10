@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, Search, Info, ArrowUpDown } from 'lucide-react';
 import coinsData from '@/utils/coins';
 import { C } from '@/constants';
@@ -26,6 +27,7 @@ function getCoinImagePath(coin) {
 }
 
 export default function SwapTab() {
+  const { t } = useTranslation();
   const { showSuccess, showError } = useToast();
   const socket = getSocket();
   const [fromCoin, setFromCoin] = useState(storage.getKey('fromCoin') || 'BTC');
@@ -120,7 +122,7 @@ export default function SwapTab() {
     mutationFn: performSwap,
     onSuccess: (data) => {
       if (data?.success) {
-        showSuccess('Swap completed');
+        showSuccess(t('wallet.swapCompleted', 'Swap completed'));
         setAmount('');
         setToAmount('0');
         const token = storage.getKey('token');
@@ -128,9 +130,9 @@ export default function SwapTab() {
           socket.emit(C.CREDIT, encode({ token, coin: fromCoin }));
           socket.emit(C.CREDIT, encode({ token, coin: toCoin }));
         }
-      } else showError(data?.message || 'Swap failed');
+      } else showError(data?.message || t('wallet.swapFailed', 'Swap failed'));
     },
-    onError: (e) => showError(e?.message || 'Swap failed'),
+    onError: (e) => showError(e?.message || t('wallet.swapFailed', 'Swap failed')),
   });
 
   const handleFromSelect = (name) => {
@@ -175,11 +177,11 @@ export default function SwapTab() {
 
   const handleSwapNow = () => {
     if (!amount || parseFloat(amount) <= 0) {
-      showError('Enter a valid amount');
+      showError(t('wallet.enterValidAmount', 'Enter a valid amount'));
       return;
     }
     if (fromCoin === toCoin) {
-      showError('Select different currencies');
+      showError(t('wallet.selectDifferentCurrencies', 'Select different currencies'));
       return;
     }
     swapMutation.mutate({
@@ -190,7 +192,7 @@ export default function SwapTab() {
   };
 
   const feePct = fromCoin.toLowerCase() === 'bjt' ? 0 : fromCoin.toLowerCase() === 'inr' ? 0.15 : 0.01;
-  const feeText = fromCoin.toLowerCase() === 'bjt' ? 'No Fee' : `${feePct * 100}%`;
+  const feeText = fromCoin.toLowerCase() === 'bjt' ? t('wallet.noFee', 'No Fee') : `${feePct * 100}%`;
 
   useEffect(() => {
     const fn = (e) => {
@@ -211,7 +213,7 @@ export default function SwapTab() {
           <Search size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-[var(--color-foreground-muted-1)]" />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder={t('wallet.searchPlaceholder', 'Search...')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-8 pr-2 py-1.5 rounded text-sm bg-[var(--color-surface-1)] border border-[var(--color-border)] text-[var(--color-foreground-primary)]"
@@ -248,7 +250,7 @@ export default function SwapTab() {
     <div ref={dropdownRef} className="flex flex-col gap-4 p-4">
       {/* From */}
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">From</label>
+        <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">{t('wallet.from', 'From')}</label>
         <div className="flex gap-2 items-center">
           <input
             type="text"
@@ -293,7 +295,7 @@ export default function SwapTab() {
           type="button"
           onClick={handleSwapCoins}
           className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-foreground-primary)] hover:bg-[var(--color-control-primary)]"
-          aria-label="Swap"
+          aria-label={t('wallet.swap', 'Swap')}
         >
           <ArrowUpDown size={20} />
         </button>
@@ -302,7 +304,7 @@ export default function SwapTab() {
 
       {/* To */}
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">To</label>
+        <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">{t('wallet.to', 'To')}</label>
         <div className="flex gap-2 items-center">
           <input
             type="text"
@@ -343,20 +345,20 @@ export default function SwapTab() {
       {amount && parseFloat(amount) > 0 && (
         <div className="flex flex-col gap-1.5 p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-sm">
           <div className="flex justify-between text-[var(--color-foreground-muted-1)]">
-            <span>Rate</span>
+            <span>{t('wallet.rate', 'Rate')}</span>
             <span className="text-[var(--color-foreground-primary)]">
               1 {fromCoin} ≈ {baseRate} {toCoin}
             </span>
           </div>
           {fromCoin.toLowerCase() !== 'bjt' && (
             <div className="flex justify-between text-[var(--color-foreground-muted-1)]">
-              <span>Fee</span>
+              <span>{t('wallet.fee', 'Fee')}</span>
               <span className="text-[var(--color-foreground-primary)]">{feeText}</span>
             </div>
           )}
           {parseFloat(toAmount) > 0 && (
             <div className="flex justify-between font-medium text-[var(--color-foreground-primary)]">
-              <span>You receive</span>
+              <span>{t('wallet.youReceive', 'You receive')}</span>
               <span className="text-[var(--color-button-primary)]">
                 {toAmount} {toCoin}
               </span>
@@ -372,13 +374,13 @@ export default function SwapTab() {
         disabled={isLoading || !amount || parseFloat(amount) <= 0 || fromCoin === toCoin}
         onClick={handleSwapNow}
       >
-        {isLoading ? 'Processing...' : 'Swap Now'}
+        {isLoading ? t('wallet.processing', 'Processing...') : t('wallet.swapNow', 'Swap Now')}
       </Button>
 
       <div className="flex items-start gap-2 p-3 rounded-lg bg-[var(--color-surface-2)] border-l-4 border-[var(--color-button-primary)]">
         <Info size={18} className="shrink-0 mt-0.5 text-[var(--color-button-primary)]" />
         <p className="text-xs text-[var(--color-foreground-primary)]">
-          Fiat can only be converted to USDT.
+          {t('wallet.fiatConvertWarning', 'Fiat can only be converted to USDT.')}
         </p>
       </div>
     </div>

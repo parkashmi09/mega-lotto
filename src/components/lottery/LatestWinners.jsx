@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Trophy, IndianRupee } from 'lucide-react';
 
 const fmtMoney = (n) =>
@@ -8,7 +9,11 @@ const NAMES = [
   'RaviKumar', 'Priya_99', 'LuckyStar', 'Tdjtigcsumuac', 'AvichayFun', 'Sk_Gamer',
   'NehaWins', 'MrJackpot', 'AdityaR', 'GoldenTkt', 'Yurrrrr', 'Megastar',
 ];
-const POSITION = ['1st Prize', '2nd Prize', '3rd Prize'];
+const POSITION = [
+  { key: 'lottery.prize1', fallback: '1st Prize' },
+  { key: 'lottery.prize2', fallback: '2nd Prize' },
+  { key: 'lottery.prize3', fallback: '3rd Prize' },
+];
 const PRIZE = [5_000_000, 1_000_000, 100_000];
 const AVATAR_COLORS = ['#e23b3b', '#f0a020', '#5b8def', '#27c498', '#9b6bdf', '#22d3c4'];
 
@@ -39,6 +44,7 @@ function Ball({ digit, win }) {
 }
 
 export default function LatestWinners() {
+  const { t } = useTranslation();
   const { winners, ticketsSold } = useMemo(() => {
     const rnd = seeded('megalotto-winners-v1');
     const list = NAMES.map((name, i) => {
@@ -55,19 +61,19 @@ export default function LatestWinners() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-4">
         <h3 className="flex items-center gap-2 text-[16px] font-extrabold uppercase tracking-wide text-[var(--color-foreground-primary)]">
-          <Trophy size={16} className="text-[var(--color-green-1)]" /> Last Result
+          <Trophy size={16} className="text-[var(--color-green-1)]" /> {t('lottery.lastResult', 'Last Result')}
         </h3>
         <span className="text-[12px] text-[var(--color-foreground-muted-1)]">
-          Tickets sold this round <b className="text-[var(--color-foreground-primary)]">{ticketsSold}</b>
+          {t('lottery.ticketsSoldThisRound', 'Tickets sold this round')} <b className="text-[var(--color-foreground-primary)]">{ticketsSold}</b>
         </span>
       </div>
 
       {/* Column header (desktop) */}
       <div className="hidden grid-cols-[1.7fr_1.7fr_1fr_1fr] gap-3 border-t border-white/[0.05] px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-foreground-muted-2)] sm:grid">
-        <span>Winner</span>
-        <span>Number</span>
-        <span>Position</span>
-        <span>Prize</span>
+        <span>{t('lottery.winner', 'Winner')}</span>
+        <span>{t('lottery.number', 'Number')}</span>
+        <span>{t('lottery.position', 'Position')}</span>
+        <span>{t('lottery.prize', 'Prize')}</span>
       </div>
 
       {/* Rows — hover + zebra */}
@@ -89,13 +95,13 @@ export default function LatestWinners() {
               </span>
               <div className="min-w-0">
                 <p className="truncate text-[14px] font-bold text-[var(--color-foreground-primary)]">{w.name}</p>
-                <p className="text-[11px] text-[var(--color-foreground-muted-2)]">{w.mins} min ago</p>
+                <p className="text-[11px] text-[var(--color-foreground-muted-2)]">{t('lottery.minAgo', '{{count}} min ago', { count: w.mins })}</p>
               </div>
             </div>
 
             {/* Number */}
             <div className="col-span-2 sm:col-span-1">
-              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">Number</p>
+              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.number', 'Number')}</p>
               <div
                 className="relative inline-flex items-center gap-1.5 py-2 pl-5 pr-4"
                 style={{
@@ -121,13 +127,13 @@ export default function LatestWinners() {
 
             {/* Position */}
             <div>
-              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">Position</p>
-              <span className="inline-block rounded-full bg-[var(--color-surface-2)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[var(--color-foreground-primary)]">{POSITION[w.pos]}</span>
+              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.position', 'Position')}</p>
+              <span className="inline-block rounded-full bg-[var(--color-surface-2)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[var(--color-foreground-primary)]">{t(POSITION[w.pos].key, POSITION[w.pos].fallback)}</span>
             </div>
 
             {/* Prize */}
             <div className="text-right sm:text-left">
-              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">Prize</p>
+              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.prize', 'Prize')}</p>
               <p className="flex items-center justify-end gap-0.5 text-[14px] font-extrabold text-[var(--color-green-1)] sm:justify-start">
                 <IndianRupee size={13} strokeWidth={2.6} />{new Intl.NumberFormat('en-IN').format(w.prize)}
               </p>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Social login section: "or continue with" + custom icon button + Google button.
@@ -36,11 +37,12 @@ const socialButtonBase =
   'rounded-full aspect-square w-12 h-12 flex items-center justify-center border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-foreground-primary)] hover:bg-[var(--color-surface-3)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-button-primary)] disabled:opacity-50';
 
 export function SocialLoginButtons({ onCustomClick, onGoogleClick, disabled }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
         <span className="h-px flex-1 bg-[var(--color-border)]" aria-hidden />
-        <span className="text-xs font-medium uppercase text-[var(--color-foreground-muted-1)]">or continue with</span>
+        <span className="text-xs font-medium uppercase text-[var(--color-foreground-muted-1)]">{t('auth.orContinueWith', 'or continue with')}</span>
         <span className="h-px flex-1 bg-[var(--color-border)]" aria-hidden />
       </div>
       <div className="flex items-center justify-center gap-4">
@@ -58,10 +60,10 @@ export function SocialLoginButtons({ onCustomClick, onGoogleClick, disabled }) {
           onClick={onGoogleClick}
           disabled={disabled}
           className={`${socialButtonBase} flex items-center justify-center gap-2 px-4 w-auto min-w-[12rem]`}
-          aria-label="Continue with Google"
+          aria-label={t('auth.continueWithGoogle', 'Continue with Google')}
         >
           <GoogleIcon />
-          <span className="text-sm font-medium uppercase">Google</span>
+          <span className="text-sm font-medium uppercase">{t('auth.google', 'Google')}</span>
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
@@ -221,7 +222,7 @@ export function DrawCard({ draw }) {
             {revealing ? (
               <>
                 <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.14em]" style={{ color: draw.color }}>
-                  <Trophy size={11} /> {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
+                  <Trophy size={11} /> {t(`lottery.prize${revealStep + 1}`, PRIZE_LABELS[revealStep])}
                 </p>
                 <div className="mt-1"><SlotReveal key={revealStep} value={winners[revealStep]} accent={draw.color} size={22} /></div>
               </>
@@ -278,7 +279,7 @@ export function DrawCard({ draw }) {
           {revealing ? (
             <div className="min-h-[58px]">
               <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em]" style={{ color: draw.color }}>
-                <Trophy size={12} /> {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
+                <Trophy size={12} /> {t(`lottery.prize${revealStep + 1}`, PRIZE_LABELS[revealStep])}
               </p>
               <div className="mt-1.5">
                 <SlotReveal key={revealStep} value={winners[revealStep]} accent={draw.color} size={26} />

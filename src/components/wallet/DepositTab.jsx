@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, Search, Copy, CheckCircle, Info } from 'lucide-react';
 import { QRCode } from 'react-qrcode-logo';
 import coinsData from '@/utils/coins';
@@ -44,6 +45,7 @@ const isFiatCurrency = (c) => Object.keys(FIAT_CURRENCIES).includes(c);
 const POPULAR = ['BTC', 'ETH', 'USDT', 'DOGE', 'BNB', 'INR', 'LTC', 'ADA', 'XRP'];
 
 export default function DepositTab() {
+  const { t } = useTranslation();
   const { showSuccess, showError } = useToast();
   const socket = getSocket();
   const [selectedCoin, setSelectedCoin] = useState(storage.getKey('coin') || 'INR');
@@ -178,28 +180,28 @@ export default function DepositTab() {
         setDepositAddress(address);
         setQrString(address);
         setShowDetails(true);
-        showSuccess('Deposit address generated');
+        showSuccess(t('wallet.depositAddressGenerated', 'Deposit address generated'));
       } else {
-        showError('Failed to generate deposit address');
+        showError(t('wallet.failedGenerateAddress', 'Failed to generate deposit address'));
       }
     },
-    onError: (e) => showError(e?.message || 'Failed to create deposit'),
+    onError: (e) => showError(e?.message || t('wallet.failedCreateDeposit', 'Failed to create deposit')),
   });
 
   const manualMutation = useMutation({
     mutationFn: createManualDeposit,
     onSuccess: (data) => {
       if (data?.success) {
-        showSuccess('Deposit request submitted');
+        showSuccess(t('wallet.depositRequestSubmitted', 'Deposit request submitted'));
         setShowTxForm(false);
         setTransactionId('');
         setScreenshot(null);
         setAmount('');
         const token = storage.getKey('token');
         if (token && socket) socket.emit(C.CREDIT, encode({ token, coin: selectedCoin }));
-      } else showError('Failed to submit');
+      } else showError(t('wallet.failedToSubmit', 'Failed to submit'));
     },
-    onError: (e) => showError(e.message || 'Failed to submit'),
+    onError: (e) => showError(e.message || t('wallet.failedToSubmit', 'Failed to submit')),
   });
 
   const handleCoinSelect = (name) => {
@@ -220,20 +222,20 @@ export default function DepositTab() {
     navigator.clipboard.writeText(value);
     setCopied((p) => ({ ...p, [field]: true }));
     setTimeout(() => setCopied((p) => ({ ...p, [field]: false })), 2000);
-    showSuccess('Copied');
+    showSuccess(t('wallet.copied', 'Copied'));
   };
 
   const handleCryptoDeposit = () => {
     if (!amount || parseFloat(amount) <= 0) {
-      showError('Enter a valid amount');
+      showError(t('wallet.enterValidAmount', 'Enter a valid amount'));
       return;
     }
     if (!selectedNetwork) {
-      showError('Select a network');
+      showError(t('wallet.selectNetwork', 'Select a network'));
       return;
     }
     if (!coinDetails?.coinId) {
-      showError('Coin details not loaded');
+      showError(t('wallet.coinDetailsNotLoaded', 'Coin details not loaded'));
       return;
     }
     cryptoMutation.mutate({
@@ -248,11 +250,11 @@ export default function DepositTab() {
 
   const handleManualSubmit = () => {
     if (!transactionId || !screenshot) {
-      showError('Fill transaction ID and screenshot');
+      showError(t('wallet.fillTxIdAndScreenshot', 'Fill transaction ID and screenshot'));
       return;
     }
     if (!amount || parseFloat(amount) <= 0) {
-      showError('Enter a valid amount');
+      showError(t('wallet.enterValidAmount', 'Enter a valid amount'));
       return;
     }
     const form = new FormData();
@@ -319,7 +321,7 @@ export default function DepositTab() {
       {/* Currency */}
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-          Deposit Currency
+          {t('wallet.depositCurrency', 'Deposit Currency')}
         </label>
         <div className="relative">
           <button
@@ -351,7 +353,7 @@ export default function DepositTab() {
                 <Search size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-[var(--color-foreground-muted-1)]" />
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder={t('wallet.searchPlaceholder', 'Search...')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-8 pr-2 py-1.5 rounded text-sm bg-[var(--color-surface-1)] border border-[var(--color-border)] text-[var(--color-foreground-primary)]"
@@ -391,7 +393,7 @@ export default function DepositTab() {
       {!isFiatCurrency(selectedCoin) && coinDetails?.networks && (
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-            Network
+            {t('wallet.network', 'Network')}
           </label>
           <div className="relative">
             <button
@@ -404,7 +406,7 @@ export default function DepositTab() {
               }}
               className="w-full flex items-center justify-between p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-foreground-primary)] text-sm"
             >
-              <span>{selectedNetwork || 'Select'}</span>
+              <span>{selectedNetwork || t('wallet.select', 'Select')}</span>
               <ChevronDown size={18} />
             </button>
             {networkOpen && (
@@ -434,7 +436,7 @@ export default function DepositTab() {
       {isFiatCurrency(selectedCoin) && bankList.length > 0 && (
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-            Bank
+            {t('wallet.bank', 'Bank')}
           </label>
           <div className="relative">
             <button
@@ -447,7 +449,7 @@ export default function DepositTab() {
               }}
               className="w-full flex items-center justify-between p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-foreground-primary)] text-sm"
             >
-              <span>{selectedBank || 'Select'}</span>
+              <span>{selectedBank || t('wallet.select', 'Select')}</span>
               <ChevronDown size={18} />
             </button>
             {bankOpen && (
@@ -481,7 +483,7 @@ export default function DepositTab() {
           </div>
           <div className="w-full flex flex-col gap-1">
             <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-              Deposit Address
+              {t('wallet.depositAddress', 'Deposit Address')}
             </label>
             <div className="flex items-center gap-2 p-2 rounded-lg bg-[var(--color-surface-1)] border border-[var(--color-border)]">
               <span className="flex-1 text-xs break-all font-mono text-[var(--color-foreground-primary)]">
@@ -505,7 +507,7 @@ export default function DepositTab() {
           {selectedBankData.account_holder_name && (
             <div className="flex flex-col gap-0.5">
               <span className="text-xs text-[var(--color-foreground-muted-1)]">
-                Account Holder
+                {t('wallet.accountHolder', 'Account Holder')}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-[var(--color-foreground-primary)]">
@@ -526,7 +528,7 @@ export default function DepositTab() {
           {selectedBankData.account_number && (
             <div className="flex flex-col gap-0.5">
               <span className="text-xs text-[var(--color-foreground-muted-1)]">
-                Account Number
+                {t('wallet.accountNumber', 'Account Number')}
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-mono text-[var(--color-foreground-primary)]">
@@ -546,7 +548,7 @@ export default function DepositTab() {
           )}
           {selectedBankData.ifsc_code && (
             <div className="flex flex-col gap-0.5">
-              <span className="text-xs text-[var(--color-foreground-muted-1)]">IFSC</span>
+              <span className="text-xs text-[var(--color-foreground-muted-1)]">{t('wallet.ifsc', 'IFSC')}</span>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-mono text-[var(--color-foreground-primary)]">
                   {selectedBankData.ifsc_code}
@@ -567,11 +569,11 @@ export default function DepositTab() {
       {/* Amount */}
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-          Amount
+          {t('wallet.amount', 'Amount')}
         </label>
         <input
           type="number"
-          placeholder={`Amount in ${selectedCoin}`}
+          placeholder={t('wallet.amountInCoin', 'Amount in {{coin}}', { coin: selectedCoin })}
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           className="w-full p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-foreground-primary)] text-sm focus:outline-none focus:border-[var(--color-button-primary)]"
@@ -590,7 +592,7 @@ export default function DepositTab() {
                 : 'border-[var(--color-border)] text-[var(--color-foreground-primary)]'
             }`}
           >
-            Manual
+            {t('wallet.manual', 'Manual')}
           </button>
         </div>
       )}
@@ -599,11 +601,11 @@ export default function DepositTab() {
         <div className="flex flex-col gap-3 p-4 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)]">
           <div className="flex flex-col gap-1">
             <label className="text-xs text-[var(--color-foreground-muted-1)]">
-              Transaction / UTR
+              {t('wallet.transactionUtr', 'Transaction / UTR')}
             </label>
             <input
               type="text"
-              placeholder="Transaction ID"
+              placeholder={t('wallet.transactionId', 'Transaction ID')}
               value={transactionId}
               onChange={(e) => setTransactionId(e.target.value)}
               className="w-full p-3 rounded-lg bg-[var(--color-surface-1)] border border-[var(--color-border)] text-sm text-[var(--color-foreground-primary)]"
@@ -611,7 +613,7 @@ export default function DepositTab() {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-xs text-[var(--color-foreground-muted-1)]">
-              Screenshot
+              {t('wallet.screenshot', 'Screenshot')}
             </label>
             <div
               role="button"
@@ -620,7 +622,7 @@ export default function DepositTab() {
               onKeyDown={(e) => e.key === 'Enter' && document.getElementById('deposit-screenshot').click()}
               className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border-2 border-dashed border-[var(--color-button-primary)] text-[var(--color-foreground-primary)] text-sm cursor-pointer"
             >
-              {screenshot ? screenshot.name : 'Upload screenshot'}
+              {screenshot ? screenshot.name : t('wallet.uploadScreenshot', 'Upload screenshot')}
             </div>
             <input
               id="deposit-screenshot"
@@ -637,7 +639,7 @@ export default function DepositTab() {
             disabled={manualMutation.isPending}
             onClick={handleManualSubmit}
           >
-            {manualMutation.isPending ? 'Submitting...' : 'Submit'}
+            {manualMutation.isPending ? t('wallet.submitting', 'Submitting...') : t('wallet.submit', 'Submit')}
           </Button>
         </div>
       )}
@@ -653,7 +655,7 @@ export default function DepositTab() {
               disabled={isLoading || !amount || !selectedBank}
               onClick={() => setShowTxForm(true)}
             >
-              Proceed to payment
+              {t('wallet.proceedToPayment', 'Proceed to payment')}
             </Button>
           ) : !showDetails ? (
             <Button
@@ -663,7 +665,7 @@ export default function DepositTab() {
               disabled={isLoading || !amount || !selectedNetwork}
               onClick={handleCryptoDeposit}
             >
-              {isLoading ? 'Generating...' : 'Generate deposit address'}
+              {isLoading ? t('wallet.generating', 'Generating...') : t('wallet.generateDepositAddress', 'Generate deposit address')}
             </Button>
           ) : null}
         </div>
@@ -673,7 +675,7 @@ export default function DepositTab() {
       <div className="flex items-start gap-2 p-3 rounded-lg bg-[var(--color-surface-2)] border-l-4 border-[var(--color-button-primary)]">
         <Info size={18} className="shrink-0 mt-0.5 text-[var(--color-button-primary)]" />
         <p className="text-xs text-[var(--color-foreground-primary)]">
-          Only send {selectedCoin} to this address. Sending other assets may result in loss.
+          {t('wallet.onlySendWarning', 'Only send {{coin}} to this address. Sending other assets may result in loss.', { coin: selectedCoin })}
         </p>
       </div>
     </div>

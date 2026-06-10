@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useSiteConfig } from '@/context/SiteConfigContext.jsx';
@@ -10,6 +11,7 @@ import { RegisterForm } from './RegisterForm.jsx';
  * Auth modal – Radix Dialog, opens on /login or /signup. Thrill UI: Back, Close, logo, form.
  */
 export function AuthModal() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { platformName } = useSiteConfig() || {};
@@ -52,12 +54,12 @@ export function AuthModal() {
               type="button"
               onClick={handleBack}
               className="flex items-center gap-1 text-sm font-medium text-[var(--color-foreground-primary)] hover:opacity-90"
-              aria-label="Back"
+              aria-label={t('auth.back', 'Back')}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
-              Back
+              {t('auth.back', 'Back')}
             </button>
             <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center">
               <Logo className="w-[84px]" />
@@ -68,7 +70,7 @@ export function AuthModal() {
               <button
                 type="button"
                 className="flex size-10 items-center justify-center rounded-full text-[var(--color-foreground-primary)] hover:bg-[var(--color-surface-2)]"
-                aria-label="Close"
+                aria-label={t('auth.close', 'Close')}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 6L6 18M6 6l12 12" />

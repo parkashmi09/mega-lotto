@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLogin } from '@/hooks/useLogin.js';
 import { Button } from '@/components/Button.jsx';
 import { SocialLoginButtons } from './SocialLoginButtons.jsx';
@@ -9,6 +10,7 @@ import { staticLogin } from '@/services/auth/staticAuth.js';
  * Login form – email/username + password, socket sign-in, Thrill UI.
  */
 export function LoginForm({ onClose, onSwitchToSignup }) {
+  const { t } = useTranslation();
   const { platformName } = useSiteConfig() || {};
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({});
@@ -33,9 +35,9 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
 
   const validate = () => {
     const next = {};
-    if (!formData.username.trim()) next.username = 'Email or username is required';
-    if (!formData.password) next.password = 'Password is required';
-    else if (formData.password.length < 6) next.password = 'Password must be at least 6 characters';
+    if (!formData.username.trim()) next.username = t('auth.emailOrUsernameRequired', 'Email or username is required');
+    if (!formData.password) next.password = t('auth.passwordRequired', 'Password is required');
+    else if (formData.password.length < 6) next.password = t('auth.passwordMinLength', 'Password must be at least 6 characters');
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -43,7 +45,7 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) {
-      showError('Please fix the errors below.');
+      showError(t('auth.pleaseFixErrors', 'Please fix the errors below.'));
       return;
     }
     setSubmitting(true);
@@ -51,7 +53,7 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
     const res = await staticLogin(formData.username, formData.password);
     setSubmitting(false);
     if (res.ok) {
-      showInfo?.(`Welcome, ${res.user.name}!`);
+      showInfo?.(t('auth.welcomeUser', 'Welcome, {{name}}!', { name: res.user.name }));
       // Header listens to window 'focus' to re-read the session → switches to logged-in UI.
       window.dispatchEvent(new Event('focus'));
       onClose?.();
@@ -74,27 +76,27 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
     return (
       <form onSubmit={on2FASubmit} className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold uppercase text-[var(--color-foreground-primary)]">
-          Two-Factor Authentication
+          {t('auth.twoFactorAuthentication', 'Two-Factor Authentication')}
         </h2>
         <p className="text-sm text-[var(--color-foreground-muted-1)]">
-          Please enter your verification code.
+          {t('auth.pleaseEnterVerificationCode', 'Please enter your verification code.')}
         </p>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-[var(--color-foreground-primary)]">
-            Verification Code
+            {t('auth.verificationCode', 'Verification Code')}
           </label>
           <input
             type="text"
             value={twoFactorCode}
             onChange={(e) => setTwoFactorCode(e.target.value)}
-            placeholder="Enter verification code"
+            placeholder={t('auth.enterVerificationCode', 'Enter verification code')}
             className={inputClass}
             disabled={isLoading}
             required
           />
         </div>
         <Button type="submit" variant="primary" className="w-full py-3" disabled={isLoading}>
-          {isLoading ? 'Verifying...' : 'Verify Code'}
+          {isLoading ? t('auth.verifying', 'Verifying...') : t('auth.verifyCode', 'Verify Code')}
         </Button>
       </form>
     );
@@ -102,14 +104,14 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <p className="text-[var(--color-foreground-primary)]">Enter Username</p>
+      <p className="text-[var(--color-foreground-primary)]">{t('auth.enterUsername', 'Enter Username')}</p>
       <div className="flex flex-col gap-2">
         <input
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
-          placeholder="Enter Email Address"
+          placeholder={t('auth.enterEmailAddress', 'Enter Email Address')}
           className={inputClass}
           disabled={isLoading}
           autoComplete="username email"
@@ -121,7 +123,7 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
       </div>
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-[var(--color-foreground-primary)]">
-          Password
+          {t('auth.password', 'Password')}
         </label>
         <div className="relative">
           <input
@@ -129,7 +131,7 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="Enter your password"
+            placeholder={t('auth.enterYourPassword', 'Enter your password')}
             className={inputClass + ' pe-12'}
             disabled={isLoading}
             autoComplete="current-password"
@@ -140,7 +142,7 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
             onClick={() => setShowPassword((v) => !v)}
             disabled={isLoading}
             className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[var(--color-foreground-muted-1)] hover:text-[var(--color-foreground-primary)] focus:outline-none disabled:opacity-50"
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-label={showPassword ? t('auth.hidePassword', 'Hide password') : t('auth.showPassword', 'Show password')}
           >
             {showPassword ? (
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -160,24 +162,24 @@ export function LoginForm({ onClose, onSwitchToSignup }) {
         )}
       </div>
       <Button type="submit" variant="primary" className="w-full py-3 uppercase" disabled={isLoading}>
-        {isLoading ? 'Signing in...' : 'Continue'}
+        {isLoading ? t('auth.signingIn', 'Signing in...') : t('auth.continue', 'Continue')}
       </Button>
       <SocialLoginButtons
-        onCustomClick={() => showInfo('Coming soon')}
+        onCustomClick={() => showInfo(t('auth.comingSoon', 'Coming soon'))}
         onGoogleClick={handleGoogleLogin}
         disabled={isLoading}
       />
       <p className="text-center text-xs text-[var(--color-foreground-muted-1)]">
-        By continuing, you agree to {platformName || 'thrill'}'s{' '}
-        <a href="/terms" className="underline hover:opacity-90">Terms of Service</a>
-        {' and '}
-        <a href="/privacy" className="underline hover:opacity-90">Privacy Policy</a>.
+        {t('auth.byContinuingAgree', "By continuing, you agree to {{platform}}'s", { platform: platformName || 'thrill' })}{' '}
+        <a href="/terms" className="underline hover:opacity-90">{t('auth.termsOfService', 'Terms of Service')}</a>
+        {' '}{t('auth.and', 'and')}{' '}
+        <a href="/privacy" className="underline hover:opacity-90">{t('auth.privacyPolicy', 'Privacy Policy')}</a>.
       </p>
       {onSwitchToSignup && (
         <p className="text-center text-sm text-[var(--color-foreground-muted-1)]">
-          Don&apos;t have an account?{' '}
+          {t('auth.dontHaveAccount', "Don't have an account?")}{' '}
           <a href="/signup" onClick={(e) => { e.preventDefault(); onSwitchToSignup(); }} className="font-medium text-[var(--color-button-primary)] underline hover:opacity-90">
-            Sign up
+            {t('auth.signUp', 'Sign up')}
           </a>
         </p>
       )}

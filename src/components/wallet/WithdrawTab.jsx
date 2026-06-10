@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, Search, Info } from 'lucide-react';
 import coinsData from '@/utils/coins';
 import { C } from '@/constants';
@@ -35,6 +36,7 @@ const FIAT_LIST = ['INR', 'MVR', 'PKR', 'AED', 'BDT', 'NPR', 'SC'];
 const isFiatCurrency = (c) => FIAT_LIST.includes(c);
 
 export default function WithdrawTab() {
+  const { t } = useTranslation();
   const { showSuccess, showError } = useToast();
   const socket = getSocket();
   const [selectedCoin, setSelectedCoin] = useState(storage.getKey('coin') || 'BTC');
@@ -156,7 +158,7 @@ export default function WithdrawTab() {
     mutationFn: createFiatWithdrawal,
     onSuccess: (data) => {
       if (data?.success !== false) {
-        showSuccess(data?.message || 'Withdrawal submitted');
+        showSuccess(data?.message || t('wallet.withdrawalSubmitted', 'Withdrawal submitted'));
         setAmount('');
         setAccountHolderName('');
         setBankName('');
@@ -167,11 +169,11 @@ export default function WithdrawTab() {
         const token = storage.getKey('token');
         if (token && socket) socket.emit(C.CREDIT, encode({ token, coin: selectedCoin }));
       } else {
-        showError(data?.message || data?.error || 'Withdrawal failed');
+        showError(data?.message || data?.error || t('wallet.withdrawalFailed', 'Withdrawal failed'));
       }
     },
     onError: (e) =>
-      showError(e?.response?.data?.message || e?.message || 'Withdrawal failed'),
+      showError(e?.response?.data?.message || e?.message || t('wallet.withdrawalFailed', 'Withdrawal failed')),
   });
 
   const check2FAMutation = useMutation({
@@ -190,9 +192,9 @@ export default function WithdrawTab() {
         setShow2FA(false);
         setTwoFactorCode('');
         doWithdrawSubmit();
-      } else showError('Invalid code');
+      } else showError(t('wallet.invalidCode', 'Invalid code'));
     },
-    onError: () => showError('Verification failed'),
+    onError: () => showError(t('wallet.verificationFailed', 'Verification failed')),
   });
 
   const handleCoinSelect = (name) => {
@@ -218,40 +220,40 @@ export default function WithdrawTab() {
     setAddressError('');
     setPasswordError('');
     if (!amount || parseFloat(amount) <= 0) {
-      setError('Enter a valid amount');
+      setError(t('wallet.enterValidAmount', 'Enter a valid amount'));
       return false;
     }
     const info = coinsData.find((c) => c.preffix === selectedCoin);
     if (info && parseFloat(amount) < Number(info.min)) {
-      setError(`Minimum is ${info.min} ${selectedCoin}`);
+      setError(t('wallet.minimumIs', 'Minimum is {{min}} {{coin}}', { min: info.min, coin: selectedCoin }));
       return false;
     }
     if (isFiatCurrency(selectedCoin)) {
       if (!accountHolderName.trim()) {
-        setError('Account holder name required');
+        setError(t('wallet.accountHolderNameRequired', 'Account holder name required'));
         return false;
       }
       if (selectedCoin === 'INR') {
         if (inrType === 'upi' && !upiId.trim()) {
-          setError('UPI ID required');
+          setError(t('wallet.upiIdRequired', 'UPI ID required'));
           return false;
         }
         if (inrType === 'bank' && (!bankName || !accountNumber || !ifscCode)) {
-          setError('Bank details required');
+          setError(t('wallet.bankDetailsRequired', 'Bank details required'));
           return false;
         }
       } else {
         if (!bankName || !accountNumber || !ifscCode) {
-          setError('Bank details required');
+          setError(t('wallet.bankDetailsRequired', 'Bank details required'));
           return false;
         }
       }
     } else {
       if (!withdrawAddress.trim()) {
-        setAddressError('Address required');
+        setAddressError(t('wallet.addressRequired', 'Address required'));
         return false;
       }
-      if (!chainName.trim()) setError('Chain required');
+      if (!chainName.trim()) setError(t('wallet.chainRequired', 'Chain required'));
     }
     return true;
   };
@@ -271,7 +273,7 @@ export default function WithdrawTab() {
       });
     } else {
       if (!password.trim()) {
-        setPasswordError('Password required');
+        setPasswordError(t('wallet.passwordRequired', 'Password required'));
         return;
       }
       if (!showPreview) {
@@ -299,7 +301,7 @@ export default function WithdrawTab() {
         setChainName('');
         setShowPreview(false);
         setLoading(false);
-        showSuccess('Withdrawal submitted');
+        showSuccess(t('wallet.withdrawalSubmitted', 'Withdrawal submitted'));
       }, 500);
     }
   };
@@ -311,7 +313,7 @@ export default function WithdrawTab() {
 
   const handle2FA = () => {
     if (!twoFactorCode.trim()) {
-      showError('Enter code');
+      showError(t('wallet.enterCode', 'Enter code'));
       return;
     }
     verify2FAMutation.mutate(twoFactorCode);
@@ -342,7 +344,7 @@ export default function WithdrawTab() {
       {/* Currency */}
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-          Withdrawal Currency
+          {t('wallet.withdrawalCurrency', 'Withdrawal Currency')}
         </label>
         <div className="relative">
           <button
@@ -373,7 +375,7 @@ export default function WithdrawTab() {
                 <Search size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-[var(--color-foreground-muted-1)]" />
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder={t('wallet.searchPlaceholder', 'Search...')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-8 pr-2 py-1.5 rounded text-sm bg-[var(--color-surface-1)] border border-[var(--color-border)] text-[var(--color-foreground-primary)]"
@@ -409,7 +411,7 @@ export default function WithdrawTab() {
       {!isFiatCurrency(selectedCoin) && coinDetails?.networks && (
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-            Network
+            {t('wallet.network', 'Network')}
           </label>
           <div className="relative">
             <button
@@ -421,7 +423,7 @@ export default function WithdrawTab() {
               }}
               className="w-full flex items-center justify-between p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-foreground-primary)] text-sm"
             >
-              <span>{selectedNetwork || 'Select'}</span>
+              <span>{selectedNetwork || t('wallet.select', 'Select')}</span>
               <ChevronDown size={18} />
             </button>
             {networkOpen && (
@@ -451,11 +453,11 @@ export default function WithdrawTab() {
       {/* Amount */}
       <div className="flex flex-col gap-1">
         <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-          Amount
+          {t('wallet.amount', 'Amount')}
         </label>
         <input
           type="number"
-          placeholder={`0.00 ${selectedCoin}`}
+          placeholder={t('wallet.amountPlaceholderCoin', '0.00 {{coin}}', { coin: selectedCoin })}
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           className="w-full p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-[var(--color-foreground-primary)] text-sm focus:outline-none focus:border-[var(--color-button-primary)]"
@@ -467,11 +469,11 @@ export default function WithdrawTab() {
         <>
           <div className="flex flex-col gap-1">
             <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-              Withdrawal Address
+              {t('wallet.withdrawalAddress', 'Withdrawal Address')}
             </label>
             <input
               type="text"
-              placeholder="Address"
+              placeholder={t('wallet.address', 'Address')}
               value={withdrawAddress}
               onChange={(e) => {
                 setWithdrawAddress(e.target.value);
@@ -488,11 +490,11 @@ export default function WithdrawTab() {
           {showPreview && (
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-                Password
+                {t('wallet.password', 'Password')}
               </label>
               <input
                 type="password"
-                placeholder="Password"
+                placeholder={t('wallet.password', 'Password')}
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -515,11 +517,11 @@ export default function WithdrawTab() {
         <>
           <div className="flex flex-col gap-1">
             <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-              Account Holder Name
+              {t('wallet.accountHolderName', 'Account Holder Name')}
             </label>
             <input
               type="text"
-              placeholder="Name"
+              placeholder={t('wallet.name', 'Name')}
               value={accountHolderName}
               onChange={(e) => setAccountHolderName(e.target.value)}
               className="w-full p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-sm text-[var(--color-foreground-primary)]"
@@ -536,7 +538,7 @@ export default function WithdrawTab() {
                     : 'border-[var(--color-border)] text-[var(--color-foreground-primary)]'
                 }`}
               >
-                UPI
+                {t('wallet.upi', 'UPI')}
               </button>
               <button
                 type="button"
@@ -547,16 +549,16 @@ export default function WithdrawTab() {
                     : 'border-[var(--color-border)] text-[var(--color-foreground-primary)]'
                 }`}
               >
-                Bank
+                {t('wallet.bank', 'Bank')}
               </button>
             </div>
           )}
           {selectedCoin === 'INR' && inrType === 'upi' && (
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-[var(--color-foreground-muted-1)]">UPI ID</label>
+              <label className="text-xs text-[var(--color-foreground-muted-1)]">{t('wallet.upiId', 'UPI ID')}</label>
               <input
                 type="text"
-                placeholder="yourname@upi"
+                placeholder={t('wallet.upiIdPlaceholder', 'yourname@upi')}
                 value={upiId}
                 onChange={(e) => setUpiId(e.target.value)}
                 className="w-full p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-sm text-[var(--color-foreground-primary)]"
@@ -566,7 +568,7 @@ export default function WithdrawTab() {
           {(selectedCoin !== 'INR' || inrType === 'bank') && (
             <>
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[var(--color-foreground-muted-1)]">Bank Name</label>
+                <label className="text-xs text-[var(--color-foreground-muted-1)]">{t('wallet.bankName', 'Bank Name')}</label>
                 <input
                   type="text"
                   value={bankName}
@@ -576,7 +578,7 @@ export default function WithdrawTab() {
               </div>
               <div className="flex flex-col gap-1">
                 <label className="text-xs text-[var(--color-foreground-muted-1)]">
-                  Account Number
+                  {t('wallet.accountNumber', 'Account Number')}
                 </label>
                 <input
                   type="text"
@@ -586,7 +588,7 @@ export default function WithdrawTab() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-[var(--color-foreground-muted-1)]">IFSC</label>
+                <label className="text-xs text-[var(--color-foreground-muted-1)]">{t('wallet.ifsc', 'IFSC')}</label>
                 <input
                   type="text"
                   value={ifscCode}
@@ -607,11 +609,11 @@ export default function WithdrawTab() {
       {show2FA && (
         <div className="flex flex-col gap-2 p-4 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)]">
           <label className="text-xs font-medium text-[var(--color-foreground-muted-1)]">
-            2FA Code
+            {t('wallet.twoFaCode', '2FA Code')}
           </label>
           <input
             type="text"
-            placeholder="Code"
+            placeholder={t('wallet.code', 'Code')}
             value={twoFactorCode}
             onChange={(e) => setTwoFactorCode(e.target.value)}
             className="w-full p-3 rounded-lg bg-[var(--color-surface-1)] border border-[var(--color-border)] text-sm text-[var(--color-foreground-primary)]"
@@ -623,7 +625,7 @@ export default function WithdrawTab() {
             disabled={verify2FAMutation.isPending}
             onClick={handle2FA}
           >
-            Verify
+            {t('wallet.verify', 'Verify')}
           </Button>
         </div>
       )}
@@ -632,11 +634,11 @@ export default function WithdrawTab() {
       {!isFiatCurrency(selectedCoin) && amount && parseFloat(amount) > 0 && (
         <div className="flex flex-col gap-1 p-3 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border)] text-sm">
           <div className="flex justify-between">
-            <span className="text-[var(--color-foreground-muted-1)]">Fee (1%)</span>
+            <span className="text-[var(--color-foreground-muted-1)]">{t('wallet.feePercent', 'Fee (1%)')}</span>
             <span className="text-[var(--color-foreground-primary)]">{fee.toFixed(8)}</span>
           </div>
           <div className="flex justify-between font-medium">
-            <span className="text-[var(--color-foreground-muted-1)]">You receive</span>
+            <span className="text-[var(--color-foreground-muted-1)]">{t('wallet.youReceive', 'You receive')}</span>
             <span className="text-[var(--color-foreground-primary)]">
               {finalAmount.toFixed(8)} {selectedCoin}
             </span>
@@ -652,14 +654,14 @@ export default function WithdrawTab() {
           disabled={isLoading || !amount}
           onClick={handleSubmit}
         >
-          {isLoading ? 'Processing...' : 'Withdraw'}
+          {isLoading ? t('wallet.processing', 'Processing...') : t('wallet.withdraw', 'Withdraw')}
         </Button>
       )}
 
       <div className="flex items-start gap-2 p-3 rounded-lg bg-[var(--color-surface-2)] border-l-4 border-[var(--color-button-primary)]">
         <Info size={18} className="shrink-0 mt-0.5 text-[var(--color-button-primary)]" />
         <p className="text-xs text-[var(--color-foreground-primary)]">
-          Ensure the withdrawal address and network are correct. Wrong network may cause loss.
+          {t('wallet.withdrawWarning', 'Ensure the withdrawal address and network are correct. Wrong network may cause loss.')}
         </p>
       </div>
     </div>

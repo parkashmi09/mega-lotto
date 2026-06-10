@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
@@ -104,7 +105,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
   const fireRef = useRef(null);
   useEffect(() => {
     if (confettiCanvasRef.current && !fireRef.current) {
-      fireRef.current = confetti.create(confettiCanvasRef.current, { resize: true, disableForReducedMotion: true });
+      fireRef.current = confetti.create(confettiCanvasRef.current, { resize: true });
     }
     return () => { fireRef.current = null; };
   }, []);
@@ -112,34 +113,32 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
   const timerWrapMobileRef = useRef(null);
   const timerWrapDesktopRef = useRef(null);
 
-  // Firecracker burst (canvas-confetti) — a transparent celebratory pop fired
-  // right OVER whichever timer is visible: one wide upward shot from its centre
-  // plus two angled cracker shots converging on it. Origin is mapped from the
-  // live timer DOM rect so it lands on the timer in BOTH mobile (top-right
-  // header) and desktop (results row) layouts. Fired the instant the countdown
-  // hits 00:00 and again on each 1st/2nd/3rd prize reveal.
+  // Firecracker burst (canvas-confetti) — a transparent, full-screen celebratory
+  // pop fired right OVER whichever timer is visible. The canvas is a fixed,
+  // body-level overlay (no card clipping), so the burst shows on mobile too,
+  // where the timer sits at the very top of the card and an in-card canvas would
+  // clip the upward particles. Omnidirectional so it reads as a cracker from any
+  // position. Origin is mapped from the live timer rect into viewport space.
+  // Fired the instant the countdown hits 00:00 and on each 1st/2nd/3rd reveal.
   const crackerBurst = () => {
     const fire = fireRef.current;
-    const canvas = confettiCanvasRef.current;
-    if (!fire || !canvas) return;
+    if (!fire) return;
     const colors = [draw?.color || '#34d399', '#22d3c4', '#ffffff', '#f0a020'];
 
-    // Locate the visible timer and convert its centre into canvas 0..1 space
+    // Locate the visible timer and convert its centre into viewport 0..1 space
     let ox = 0.5, oy = 0.18;
     const timerEl = [timerWrapDesktopRef.current, timerWrapMobileRef.current]
       .find((el) => el && el.offsetParent !== null && el.getBoundingClientRect().width > 0);
-    const cr = canvas.getBoundingClientRect();
-    if (timerEl && cr.width && cr.height) {
+    if (timerEl) {
       const tr = timerEl.getBoundingClientRect();
-      ox = (tr.left + tr.width / 2 - cr.left) / cr.width;
-      oy = (tr.top + tr.height / 2 - cr.top) / cr.height;
+      ox = (tr.left + tr.width / 2) / window.innerWidth;
+      oy = (tr.top + tr.height / 2) / window.innerHeight;
     }
 
-    // central upward pop, sitting right on the timer
-    fire({ particleCount: 70, angle: 90, spread: 120, startVelocity: 40, scalar: 0.8, ticks: 160, gravity: 1.1, decay: 0.92, origin: { x: ox, y: oy }, colors });
-    // two angled cracker shots converging over the timer
-    fire({ particleCount: 35, angle: 55, spread: 70, startVelocity: 34, scalar: 0.75, ticks: 150, gravity: 1.1, origin: { x: Math.max(0.04, ox - 0.22), y: oy }, colors });
-    fire({ particleCount: 35, angle: 125, spread: 70, startVelocity: 34, scalar: 0.75, ticks: 150, gravity: 1.1, origin: { x: Math.min(0.96, ox + 0.22), y: oy }, colors });
+    // omnidirectional firework burst centred on the timer + two upward cracker shots
+    fire({ particleCount: 90, spread: 360, startVelocity: 26, scalar: 0.85, ticks: 170, gravity: 0.95, decay: 0.92, origin: { x: ox, y: oy }, colors });
+    fire({ particleCount: 40, angle: 60, spread: 65, startVelocity: 40, scalar: 0.8, ticks: 160, gravity: 1.1, origin: { x: ox, y: oy }, colors });
+    fire({ particleCount: 40, angle: 120, spread: 65, startVelocity: 40, scalar: 0.8, ticks: 160, gravity: 1.1, origin: { x: ox, y: oy }, colors });
   };
 
   useEffect(() => {
@@ -252,9 +251,9 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
 
   // Buy Now → validate, then ask for confirmation
   const buyNow = () => {
-    if (!isLoggedIn) { toast.error('Please log in to buy tickets'); navigate('/login'); return; }
+    if (!isLoggedIn) { toast.error(t('lottery.loginToBuy', 'Please log in to buy tickets')); navigate('/login'); return; }
     if (count < 1 || !draw) return;
-    if (total > balance) { toast.error('Insufficient balance — please deposit'); return; }
+    if (total > balance) { toast.error(t('lottery.insufficientBalance', 'Insufficient balance — please deposit')); return; }
     setConfirmOpen(true);
   };
 
@@ -285,6 +284,13 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
 
   return (
     <section aria-labelledby="megaloot-heading" className="scroll-mt-24">
+      {/* Full-screen, transparent confetti overlay (body-level so the cracker
+          burst is never clipped by the card — critical for the mobile layout) */}
+      {createPortal(
+        <canvas ref={confettiCanvasRef} className="pointer-events-none fixed inset-0 z-[9999] h-full w-full" aria-hidden />,
+        document.body
+      )}
+
       {/* SEO structured data */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -303,7 +309,6 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
         {/* Left — info + actions */}
         <div className="order-2 w-full shrink-0 lg:order-1 lg:w-[340px] lg:min-w-[340px]">
           <div className="relative flex w-full flex-col gap-[16px] overflow-hidden rounded-[24px] bg-[var(--color-surface-1)] p-[20px] sm:rounded-[28px] lg:h-[480px]">
-            <canvas ref={confettiCanvasRef} className="pointer-events-none absolute inset-0 z-[6] h-full w-full" aria-hidden />
             <div className="flex items-center gap-[10px]">
               <span className="flex size-[34px] items-center justify-center rounded-[10px] text-white" style={{ backgroundColor: draw.color }}>
                 <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor"><path d="M19 5.25c1.24 0 2.25 1.01 2.25 2.25v2a.75.75 0 0 1-.53.72 1.75 1.75 0 0 0 0 3.36.75.75 0 0 1 .53.72v2c0 1.24-1.01 2.25-2.25 2.25H5c-1.24 0-2.25-1.01-2.25-2.25v-2a.75.75 0 0 1 .53-.72 1.75 1.75 0 0 0 0-3.36A.75.75 0 0 1 2.75 9.5v-2C2.75 6.26 3.76 5.25 5 5.25z" /></svg>
@@ -321,7 +326,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
               {revealing ? (
                 <>
                   <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide" style={{ color: 'var(--color-green-1)' }}>
-                    {t(`lottery.prize${revealStep}`, PRIZE_LABELS[revealStep])}
+                    {t(`lottery.prize${revealStep + 1}`, PRIZE_LABELS[revealStep])}
                   </span>
                   <span ref={timerWrapDesktopRef} className="relative">
                     <SlotReveal key={revealStep} value={winners[revealStep]} accent="var(--color-green-1)" size={24} />
@@ -362,7 +367,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
                       key={num}
                       type="button"
                       onClick={() => toggle(num)}
-                      title="Remove"
+                      title={t('lottery.remove', 'Remove')}
                       className="group flex h-fit shrink-0 items-center gap-1.5 rounded-[12px] bg-[var(--color-green-1)]/15 px-[12px] py-[7px] text-[13px] font-bold tabular-nums text-[var(--color-green-1)] ring-1 ring-[var(--color-green-1)]/60 transition-transform hover:scale-105 cursor-pointer"
                     >
                       {num}<X size={12} className="opacity-60 group-hover:opacity-100" />
@@ -397,7 +402,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
               <button
                 type="button"
                 onClick={() => (searchOpen ? closeSearch() : openSearch())}
-                aria-label="Search number"
+                aria-label={t('lottery.searchNumberAria', 'Search number')}
                 className="flex size-[44px] shrink-0 items-center justify-center rounded-full text-[var(--color-foreground-secondary)] transition-colors hover:bg-[var(--color-surface-3)] hover:text-[var(--color-foreground-primary)] cursor-pointer"
               >
                 <Search size={20} strokeWidth={2.4} />
@@ -415,7 +420,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
                 className={`min-w-0 bg-transparent text-[15px] font-semibold tabular-nums text-[var(--color-foreground-primary)] outline-none placeholder:text-[var(--color-foreground-muted-2)] ${searchOpen ? 'flex-1 pl-1 pr-2' : 'w-0 flex-none p-0'}`}
               />
               {searchOpen && query && (
-                <button type="button" onClick={closeSearch} aria-label="Clear search" className="mr-2 flex size-7 shrink-0 items-center justify-center text-[var(--color-foreground-muted-1)] hover:text-[var(--color-foreground-primary)] cursor-pointer">
+                <button type="button" onClick={closeSearch} aria-label={t('lottery.clearSearch', 'Clear search')} className="mr-2 flex size-7 shrink-0 items-center justify-center text-[var(--color-foreground-muted-1)] hover:text-[var(--color-foreground-primary)] cursor-pointer">
                   <X size={16} />
                 </button>
               )}
@@ -478,7 +483,7 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
       {confirmOpen && (
         <div className="fixed inset-0 z-[var(--z-index-drawer-portal,150)] flex items-center justify-center p-4">
           <div onClick={() => setConfirmOpen(false)} className="absolute inset-0 bg-black/60 backdrop-blur-sm duration-150 animate-in fade-in-0" />
-          <div role="dialog" aria-modal="true" aria-label="Confirm purchase" className="relative w-[min(400px,calc(100vw-24px))] rounded-[24px] border border-[var(--color-foreground-muted-1)]/10 bg-[var(--color-surface-1)] p-5 shadow-2xl duration-150 animate-in fade-in-0 zoom-in-95">
+          <div role="dialog" aria-modal="true" aria-label={t('lottery.confirmPurchaseAria', 'Confirm purchase')} className="relative w-[min(400px,calc(100vw-24px))] rounded-[24px] border border-[var(--color-foreground-muted-1)]/10 bg-[var(--color-surface-1)] p-5 shadow-2xl duration-150 animate-in fade-in-0 zoom-in-95">
             <div className="mb-3 flex items-center gap-[10px]">
               <span className="flex size-[34px] items-center justify-center rounded-[10px] text-white" style={{ backgroundColor: draw.color }}>
                 <Ticket size={18} />

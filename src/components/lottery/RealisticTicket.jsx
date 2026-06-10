@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Realistic lottery ticket — a data-driven, pixel-faithful React port of
@@ -20,9 +21,9 @@ import { useId } from 'react';
  *   footerText  – bottom-stub caption
  */
 const STATUS_FOOT = {
-  pending: 'VALID ONLY TODAY',
-  won: 'WINNING TICKET ✓',
-  lost: 'NOT A WINNER',
+  pending: { key: 'lottery.validOnlyToday', fallback: 'VALID ONLY TODAY' },
+  won: { key: 'lottery.winningTicket', fallback: 'WINNING TICKET ✓' },
+  lost: { key: 'lottery.notAWinner', fallback: 'NOT A WINNER' },
 };
 
 function titleSize(name = '') {
@@ -59,8 +60,14 @@ export default function RealisticTicket({
   status = 'pending',
   footerText,
 }) {
+  const { t } = useTranslation();
   const uid = useId().replace(/:/g, '');
   const id = (k) => `${k}-${uid}`;
+
+  // Translate the rendered literals only when they still hold the hardcoded
+  // defaults; an explicit prop value (no default) passes through untouched.
+  const subtitleText = subtitle === 'PREMIUM LUCK DRAW' ? t('lottery.premiumLuckDraw', 'PREMIUM LUCK DRAW') : subtitle;
+  const stubLabelText = stubLabel === 'LUCKY' ? t('lottery.lucky', 'LUCKY') : stubLabel;
 
   const won = status === 'won';
   const lost = status === 'lost';
@@ -79,9 +86,14 @@ export default function RealisticTicket({
   const ink = darken(color, 0.6);      // numbers / footer
   const barInk = darken(color, 0.72);
 
-  const panelText = won ? `WON ₹${new Intl.NumberFormat('en-IN').format(prizeWon)}` : lost ? 'BETTER LUCK NEXT TIME' : prizeText;
+  const panelText = won
+    ? t('lottery.wonAmount', 'WON ₹{{amount}}', { amount: new Intl.NumberFormat('en-IN').format(prizeWon) })
+    : lost
+    ? t('lottery.betterLuckNextTime', 'BETTER LUCK NEXT TIME')
+    : prizeText;
   const panelFill = won ? '#0b6b2e' : ink;
-  const foot = footerText || STATUS_FOOT[status] || STATUS_FOOT.pending;
+  const footStatus = STATUS_FOOT[status] || STATUS_FOOT.pending;
+  const foot = footerText || t(footStatus.key, footStatus.fallback);
 
   return (
     <svg viewBox="34 40 692 240" className="block w-full h-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label={`${name} ticket ${number}`}>
@@ -176,7 +188,7 @@ export default function RealisticTicket({
           {name}
         </text>
         <text x="102" y="163" fontFamily="Arial, sans-serif" fontSize="18" fontWeight="800" letterSpacing="3" fill={subFill}>
-          {subtitle}
+          {subtitleText}
         </text>
 
         {/* scratch panel (stays metallic-silver) */}
@@ -188,7 +200,7 @@ export default function RealisticTicket({
 
         {/* stub */}
         <text x="584" y="112" fontFamily="'Arial Black', Arial" fontSize="28" fill={titleFill} stroke={edge} strokeWidth="1.5">
-          {stubLabel}
+          {stubLabelText}
         </text>
         <text x="584" y="145" fontFamily="'Courier New', monospace" fontSize="24" fontWeight="900" fill={ink}>
           #{number}

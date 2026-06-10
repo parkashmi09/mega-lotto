@@ -50,9 +50,9 @@ export function MyTicketsPage({ embedded = false }) {
             <article key={tk.id} className="flex flex-col gap-3">
               <RealisticTicket
                 name={tk.name}
-                subtitle="PREMIUM LUCK DRAW"
+                subtitle={t('lottery.ticketSubtitle', 'PREMIUM LUCK DRAW')}
                 color={tk.color}
-                prizeText="WIN ₹10,00,000"
+                prizeText={t('lottery.ticketPrizeText', 'WIN ₹10,00,000')}
                 prizeWon={tk.prizeWon}
                 number={tk.number}
                 status={tk.status}
