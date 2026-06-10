@@ -57,19 +57,19 @@ export default function LatestWinners() {
   }, []);
 
   return (
-    <section className="overflow-hidden rounded-[20px] border border-white/[0.06] bg-[var(--color-surface-1)]">
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-4">
-        <h3 className="flex items-center gap-2 text-[16px] font-extrabold uppercase tracking-wide text-[var(--color-foreground-primary)]">
-          <Trophy size={16} className="text-[var(--color-green-1)]" /> {t('lottery.lastResult', 'Last Result')}
-        </h3>
+    <section className="space-y-3">
+      {/* Standalone section heading — no surrounding card box */}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="flex items-center gap-2 text-[18px] font-extrabold uppercase tracking-wide text-[var(--color-foreground-primary)]">
+          <Trophy size={18} className="text-[var(--color-green-1)]" /> {t('lottery.lastResult', 'Last Result')}
+        </h2>
         <span className="text-[12px] text-[var(--color-foreground-muted-1)]">
           {t('lottery.ticketsSoldThisRound', 'Tickets sold this round')} <b className="text-[var(--color-foreground-primary)]">{ticketsSold}</b>
         </span>
       </div>
 
       {/* Column header (desktop) */}
-      <div className="hidden grid-cols-[1.7fr_1.7fr_1fr_1fr] gap-3 border-t border-white/[0.05] px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-foreground-muted-2)] sm:grid">
+      <div className="hidden grid-cols-[1.7fr_1.7fr_1fr_1fr] gap-3 px-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-foreground-muted-2)] sm:grid">
         <span>{t('lottery.winner', 'Winner')}</span>
         <span>{t('lottery.number', 'Number')}</span>
         <span>{t('lottery.position', 'Position')}</span>
@@ -77,7 +77,7 @@ export default function LatestWinners() {
       </div>
 
       {/* Rows — hover + zebra */}
-      <div className="flex flex-col gap-1 p-2 sm:px-3 sm:py-2">
+      <div className="flex flex-col gap-1">
         {winners.map((w, i) => (
           <div
             key={i}
