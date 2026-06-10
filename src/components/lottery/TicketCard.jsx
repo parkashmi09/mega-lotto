@@ -35,6 +35,14 @@ export default function TicketCard({ tk }) {
       style={{
         background: `radial-gradient(135% 100% at 92% -10%, color-mix(in srgb, ${brand} 26%, transparent) 0%, transparent 58%), linear-gradient(155deg, color-mix(in srgb, ${brand} 12%, #0c1024) 0%, #080b16 100%)`,
         borderColor: `color-mix(in srgb, ${glow} 24%, transparent)`,
+        // Ticket silhouette — concave notch cut from the left & right edges,
+        // sitting on the perforation line (~46px up from the bottom stub).
+        WebkitMaskImage:
+          'radial-gradient(circle 13px at 0 calc(100% - 46px), transparent 12px, #000 12.5px), radial-gradient(circle 13px at 100% calc(100% - 46px), transparent 12px, #000 12.5px)',
+        WebkitMaskComposite: 'source-in',
+        maskImage:
+          'radial-gradient(circle 13px at 0 calc(100% - 46px), transparent 12px, #000 12.5px), radial-gradient(circle 13px at 100% calc(100% - 46px), transparent 12px, #000 12.5px)',
+        maskComposite: 'intersect',
       }}
     >
       {/* ── top: brand + status ── */}
@@ -90,22 +98,10 @@ export default function TicketCard({ tk }) {
         </div>
       </div>
 
-      {/* ── perforation tear: a round notch bitten out of each edge sitting
-           exactly on the dashed line. The notch is filled with the page
-           background so the seam is invisible, and a dark inset shadow makes
-           the bite read as a recessed cut (not a raised blob). ── */}
-      <div className="relative z-[2] h-0">
-        <span
-          className="absolute -left-[9px] top-1/2 size-[18px] -translate-y-1/2 rounded-full bg-[var(--color-background)]"
-          style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.55)' }}
-          aria-hidden
-        />
-        <span
-          className="absolute -right-[9px] top-1/2 size-[18px] -translate-y-1/2 rounded-full bg-[var(--color-background)]"
-          style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.55)' }}
-          aria-hidden
-        />
-        <div className="mx-[18px] border-t-2 border-dashed border-white/20" aria-hidden />
+      {/* ── perforation line between the side notches (which are cut from the
+           card edges by the mask above) ── */}
+      <div className="relative z-[1] h-0">
+        <div className="mx-4 border-t-2 border-dashed border-white/20" aria-hidden />
       </div>
 
       {/* ── stub: meta ── */}
