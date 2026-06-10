@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Ticket, Clock, IndianRupee } from 'lucide-react';
+import { Ticket } from 'lucide-react';
 import { resolveTickets } from '../services/lottery/lotteryService.js';
-import RealisticTicket from '../components/lottery/RealisticTicket.jsx';
-
-const fmtDate = (iso) =>
-  new Date(iso).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+import TicketCard from '../components/lottery/TicketCard.jsx';
 
 export function MyTicketsPage({ embedded = false }) {
   const { t } = useTranslation();
@@ -45,37 +42,9 @@ export function MyTicketsPage({ embedded = false }) {
           </button>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {tickets.map((tk) => (
-            <article key={tk.id} className="flex flex-col gap-3">
-              <RealisticTicket
-                name={tk.name}
-                subtitle={t('lottery.ticketSubtitle', 'PREMIUM LUCK DRAW')}
-                color={tk.color}
-                prizeText={t('lottery.ticketPrizeText', 'WIN ₹10,00,000')}
-                prizeWon={tk.prizeWon}
-                number={tk.number}
-                status={tk.status}
-              />
-
-              {/* meta below the ticket */}
-              <div className="flex items-center justify-between px-1 text-[12px] text-[var(--color-foreground-muted-1)]">
-                <span className="flex items-center gap-1.5">
-                  <Clock size={13} /> {tk.status === 'pending' ? t('lottery.drawAt', 'Draw') : t('lottery.drawn', 'Drawn')} · {fmtDate(tk.drawAt)}
-                </span>
-                <span className="flex items-center font-bold text-[var(--color-foreground-primary)]">
-                  <IndianRupee size={12} strokeWidth={2.6} />{new Intl.NumberFormat('en-IN').format(tk.price)}
-                </span>
-              </div>
-
-              {/* declared winning number */}
-              {tk.winningNumber && (
-                <p className="px-1 text-[12px] text-[var(--color-foreground-muted-2)]">
-                  {t('lottery.winningNumber', 'Winning Number')}:{' '}
-                  <span className={`font-extrabold tabular-nums ${tk.status === 'won' ? 'text-[var(--color-green-1)]' : 'text-[var(--color-foreground-primary)]'}`}>#{tk.winningNumber}</span>
-                </p>
-              )}
-            </article>
+            <TicketCard key={tk.id} tk={tk} />
           ))}
         </div>
       )}
