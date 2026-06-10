@@ -152,9 +152,13 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
     setPhase('counting');
   }, [intervalMs]);
 
-  // Period ended → start reveal
+  // Period ended → clear this round's picks and start the reveal, so each new
+  // round begins with a fresh selection automatically.
   useEffect(() => {
-    if (phase === 'counting' && tick >= periodEnd) setPhase('revealing');
+    if (phase === 'counting' && tick >= periodEnd) {
+      setSelected(new Set());
+      setPhase('revealing');
+    }
   }, [tick, periodEnd, phase]);
 
   const winners = useMemo(
@@ -207,10 +211,19 @@ export default function MegaLootSection({ lotteryId = 'mega_millions' }) {
   }, [count]);
 
   const all = useMemo(() => Array.from({ length: TICKET_MAX }, (_, i) => padTicket(i + 1)), []);
-  // Numbers the user has already bought for this draw → disabled in the grid.
+  // Numbers the user has already bought for the CURRENT round → disabled in the
+  // grid. Recomputed each round (periodEnd) so once a draw passes those numbers
+  // free up again and the next round starts with a clean board.
   const owned = useMemo(
-    () => new Set(getMyTickets().filter((tk) => tk.lotteryId === lotteryId).map((tk) => tk.number)),
-    [lotteryId]
+    () => {
+      const now = Date.now();
+      return new Set(
+        getMyTickets()
+          .filter((tk) => tk.lotteryId === lotteryId && new Date(tk.drawAt).getTime() > now)
+          .map((tk) => tk.number)
+      );
+    },
+    [lotteryId, periodEnd]
   );
 
   // Main board always browses the full list (search no longer filters it).
