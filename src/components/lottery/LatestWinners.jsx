@@ -93,15 +93,20 @@ export default function LatestWinners() {
               >
                 {w.name[0]}
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="truncate text-[14px] font-bold text-[var(--color-foreground-primary)]">{w.name}</p>
                 <p className="text-[11px] text-[var(--color-foreground-muted-2)]">{t('lottery.minAgo', '{{count}} min ago', { count: w.mins })}</p>
               </div>
+              {/* Prize beside the name on mobile (desktop shows it in its own column) */}
+              <p className="flex shrink-0 items-center gap-0.5 text-[15px] font-extrabold text-[var(--color-green-1)] sm:hidden">
+                <IndianRupee size={13} strokeWidth={2.6} />{new Intl.NumberFormat('en-IN').format(w.prize)}
+              </p>
             </div>
 
-            {/* Number */}
+            {/* Number (+ position pill beside it on mobile) */}
             <div className="col-span-2 sm:col-span-1">
               <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.number', 'Number')}</p>
+              <div className="flex items-center justify-between gap-3">
               <div
                 className="relative inline-flex items-center gap-1.5 py-2 pl-5 pr-4"
                 style={{
@@ -123,16 +128,18 @@ export default function LatestWinners() {
                   <Ball key={j} digit={d} win={j === w.num.length - 1} />
                 ))}
               </div>
+                {/* Position beside the winning number on mobile */}
+                <span className="inline-block shrink-0 rounded-full bg-[var(--color-surface-2)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[var(--color-foreground-primary)] sm:hidden">{t(POSITION[w.pos].key, POSITION[w.pos].fallback)}</span>
+              </div>
             </div>
 
-            {/* Position */}
-            <div>
-              <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.position', 'Position')}</p>
+            {/* Position (desktop column) */}
+            <div className="hidden sm:block">
               <span className="inline-block rounded-full bg-[var(--color-surface-2)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[var(--color-foreground-primary)]">{t(POSITION[w.pos].key, POSITION[w.pos].fallback)}</span>
             </div>
 
-            {/* Prize */}
-            <div className="text-right sm:text-left">
+            {/* Prize (desktop column) */}
+            <div className="hidden text-right sm:block sm:text-left">
               <p className="mb-1 text-[11px] font-semibold text-[var(--color-foreground-muted-2)] sm:hidden">{t('lottery.prize', 'Prize')}</p>
               <p className="flex items-center justify-end gap-0.5 text-[14px] font-extrabold text-[var(--color-green-1)] sm:justify-start">
                 <IndianRupee size={13} strokeWidth={2.6} />{new Intl.NumberFormat('en-IN').format(w.prize)}
